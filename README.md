@@ -68,3 +68,28 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## 技术选型
+
+### 前端
+
+​			框架方案： react脚手架
+
+​			样式方案： node-sass
+
+​			icon方案：svg & png
+
+​			视图组件库：antd-mobile
+
+​			包管理：	yarn
+
+### 后端
+
+​			Nodejs + MongoDB
+
+## 代理
+
+​	代理方案：axios 
+
+​	修改项目根目录下.env文件中的url地址
+
