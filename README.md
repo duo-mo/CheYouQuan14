@@ -85,7 +85,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ### 后端
 
-​			Nodejs + MongoDB
+​			Nodejs + MySQL
 
 ## 代理
 

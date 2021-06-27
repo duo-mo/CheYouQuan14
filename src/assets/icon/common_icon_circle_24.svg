@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="33px" height="32px" viewBox="0 0 33 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>common_icon_circle_24</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="05-我的" transform="translate(-96.000000, -621.000000)">
+            <g id="底部导航栏" transform="translate(0.000000, 618.000000)">
+                <rect id="Background_-F6F5F4" fill="#FFFFFF" x="0" y="0" width="375" height="49"></rect>
+                <rect id="Rectangle" opacity="0.100000001" x="75" y="0" width="75" height="49"></rect>
+                <g id="车友圈" transform="translate(97.500000, 9.000000)" fill-rule="nonzero" stroke="#333333" stroke-width="1.5">
+                    <g id="Group-14" transform="translate(5.000000, 0.000000)">
+                        <g id="Group-91" transform="translate(7.000000, 8.000000)" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5.66153519" y1="0.74865168" x2="5.66153519" y2="3.24865168" id="Line-Copy-2"></line>
+                            <line x1="0.411535194" y1="0.74865168" x2="0.411535194" y2="3.24865168" id="Line-Copy-3"></line>
+                        </g>
+                        <path d="M10,0.75 C12.554317,0.75 14.866817,1.78534152 16.5407377,3.45926227 C18.2146585,5.13318303 19.25,7.44568303 19.25,10 C19.25,12.3904241 18.3433083,14.5691055 16.8549511,16.2107595 C15.3595492,17.8601838 13.2771712,18.9679231 10.9372745,19.2031578 L10.9372745,19.2031578 L3.23606798,19.25 C2.89089001,19.25 2.57839001,19.110089 2.3521845,18.8838835 C2.12597899,18.657678 1.98606798,18.345178 1.98606798,18 C1.98606798,17.8059436 2.03124934,17.6145523 2.11803784,17.4409753 C2.59422555,16.4885725 2.54353621,15.5251915 2.09041256,14.739002 C1.20034406,13.1946937 0.75,11.6159236 0.75,10 C0.75,7.44568303 1.78534152,5.13318303 3.45926227,3.45926227 C5.13318303,1.78534152 7.44568303,0.75 10,0.75 Z" id="Combined-Shape" transform="translate(10.000000, 10.000000) scale(-1, 1) translate(-10.000000, -10.000000) "></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

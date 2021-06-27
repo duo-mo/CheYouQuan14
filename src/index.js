@@ -1,15 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-const First = () => <p>Yemianyideneirong</p>
-const App = () => (
-  <Router>
-    <div>
-      <h1>react路由基础</h1>
-      <Link to="/first">yemianyi</Link>
-      <Route path="/first" component={First}></Route>
-    </div>
-  </Router>
-)
 
-ReactDOM.render(<App />, document.getElementById('root'))
+
+
+//导入样式
+import 'antd-mobile/dist/antd-mobile.css';
+//导入字体图标库的文件
+import './assets/fonts/iconfont.css'
+
+//自己写的放在组件后面
+import './index.css';
+import App from './App';
+
+
+ReactDOM.render(<App />,document.getElementById('root'));
+

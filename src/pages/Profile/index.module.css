@@ -1,0 +1,149 @@
+
+.title {
+    min-height: 150px;
+    display: flex;
+    background-color: #fff;
+  }
+  
+  .bg {
+    width: 100%;
+    background-color: aliceblue;
+  }
+  
+  .info {
+    background: #fff;
+    text-align: left;
+    font-size: 13px;
+  }
+  
+  .auth {
+    margin-top: 9vh;
+    width: 100vw;
+    border: 1px solid #d6d4d4;
+    border-radius: 5px;
+    line-height: 7vh;
+    text-align: center;
+    background-color: #fff;
+    
+  }
+  
+  .user {
+    padding-top: 15px;
+  }
+  .edit{ 
+    width: 100vw;
+  }
+  .editicon{
+    vertical-align: bottom;
+    width: 13.27px;
+    height: 13.27px;
+  }
+  .resume{
+    width: 70vw;
+    line-height: 20px;
+  }
+  .myIcon {
+    position: relative;
+    margin: 5vw 5vw;
+    margin-top: 5vw;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    border: solid 1px #f5f5f5;
+    display: inline-block;
+
+  }
+  .my_list{
+    margin-top: 2vh;
+  }
+  .my_list img{
+    width: 20px;
+    height: 20px;
+  }
+  .my_list  :nth-child(2) img{
+    width: 18px;
+    height: 18px;
+  }
+  .avatar {
+    width: 100%;
+    border-radius: 50%;
+  }
+  .name {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  .auth :global(span) {
+    border-radius: 30px;
+    color: #fff;
+    padding: 2px 15px;
+    background: #21b97a;
+    font-size: 12px;
+  }
+  
+  
+  .ad {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .ad :global(img) {
+    width: 92%;
+  }
+  
+  /* .container::-webkit-scrollbar {
+    width: 3px;
+  }
+  .container::-webkit-scrollbar-thumb {
+    background-color: #cbdaea;
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius: 2em;
+    min-height: 2rem;
+    background-clip: padding-box;
+    border-radius: 5px;
+  }
+  .container::-webkit-scrollbar-track {
+    background-color: #fff;
+  }
+  .container::-webkit-scrollbar-track-piece {
+    height: 30px;
+  } */
+  /* 
+  .ui.modal > .actions {
+    text-align: center;
+  }
+  .ui.modal > .content {
+    text-align: center;
+  }
+  .ui.modal > .content .avatar-zoom {
+    color: #000;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 2px;
+    font-size: 18px;
+  }
+   */
+  .menuItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 13px;
+    color: #333;
+  }
+  
+  .menuItem :global(i) {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  :global(.am-grid.am-grid-square .am-grid-item:before) {
+    padding-bottom: 76%;
+  }
+  
+  :global(.am-grid .am-flexbox) {
+    background-color: inherit;
+  }
+  
