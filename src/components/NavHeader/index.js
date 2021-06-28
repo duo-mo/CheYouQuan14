@@ -1,12 +1,11 @@
 import React, { Children } from 'react'
 import { NavBar } from 'antd-mobile'
-import  './index.scss'
+
 import { withRouter } from 'react-router'
 import PropsTypes from 'prop-types'
 
+import  './index.scss'
 function NavHeader({children,history,onLeftClick}){
- 
-  
   //默认点击行为
   const defaultHandler = ()=>history.go(-1)
   return(

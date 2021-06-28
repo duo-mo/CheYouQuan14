@@ -1,7 +1,9 @@
+import { Button } from 'antd-mobile';
 import React from 'react'
 import NavHeader from '../../components/NavHeader'
 export default class Index extends React.Component{
     render(){
+        const {history} = this.props
         return (
             <div>
                 <NavHeader
@@ -12,6 +14,7 @@ export default class Index extends React.Component{
                    车友圈  
                 </NavHeader>
                 这是首页
+
             </div>
         )
     }

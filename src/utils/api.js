@@ -8,6 +8,7 @@ const API = axios.create({
   baseURL: BASE_URL
 })
 
+//请求拦截器
 API.interceptors.request.use(config => {
   const { url } = config
   if (url.startsWith('/user') && !url.startsWith('/user/login') && !url.startsWith('/user/registered')) {
@@ -17,7 +18,9 @@ API.interceptors.request.use(config => {
   return config
 })
 
+//响应拦截器
 API.interceptors.response.use(res => {
+  console.log(res)
   const { status } = res.data
   if (status === 400) {
     // 状态码等于 400 ，说明 token 失效，直接移除 token 即可
