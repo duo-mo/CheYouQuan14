@@ -4,7 +4,7 @@ import React from 'react';
 //导入要使用的组件
 // import {Button} from 'antd-mobile'
 
-import {BrowserRouter as Router,Route,Link,Redirect} from 'react-router-dom'
+import {BrowserRouter as Router,Route,Redirect} from 'react-router-dom'
 //导入首页和城市两个组件(页面)
 import Home from './pages/Home'
 import Login from './pages/Login'

@@ -1,9 +1,10 @@
-import { Button } from 'antd-mobile';
+
 import React from 'react'
 import NavHeader from '../../components/NavHeader'
 export default class Index extends React.Component{
     render(){
         const {history} = this.props
+        console.log(history)
         return (
             <div>
                 <NavHeader

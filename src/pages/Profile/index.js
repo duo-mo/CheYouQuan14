@@ -1,6 +1,5 @@
 import React from 'react'
 import NavHeader from '../../components/NavHeader'
-import {BrowserRouter as Router,Route,Link, Redirect} from 'react-router-dom'
 import { Modal,List } from 'antd-mobile'
 import { BASE_URL } from '../../utils/url'
 import { API } from '../../utils/api'
@@ -11,7 +10,6 @@ import AuthRoute from '../../components/AuthRoute'
 import MyNews from '../MyNews'
 import MyComment from '../MyComment'
 
-
 import Editicoon from '../../assets/img/edit.png'
 import Newsicon from '../../assets/img/star.png'
 import Commentsicon from '../../assets/img/comments.png'
@@ -21,7 +19,6 @@ const DEFAULT_AVATAR = BASE_URL+'/img/profile/avatar.png'
 
 const alert=Modal.alert
 const Item = List.Item;
-const Brief = Item.Brief;
 
 export default class Profile extends React.Component{
     state = {
@@ -102,6 +99,7 @@ export default class Profile extends React.Component{
             
             <div className={styles.root}>
                 <AuthRoute path="/user/my_news" component={MyNews}></AuthRoute>
+                <AuthRoute path="/user/my_Comment" component={MyComment}></AuthRoute>
                 <NavHeader>
                    我的  
                 </NavHeader>
@@ -116,7 +114,7 @@ export default class Profile extends React.Component{
                         <div className={styles.user}>
                             <div className={styles.name}>{nickname || '游客'}</div>
                             {/* 游客登录后显示 */}
-                            {isLogin ?(<><div className={styles.resume}>简介简介简介简介简介简介简介简介简介简介简介简介简介简介<img src={Editicoon} className={styles.editicon}/></div></>):(
+                            {isLogin ?(<><div className={styles.resume}>简介简介简介简介简介简介简介简介简介简介简介简介简介简介<img src={Editicoon} className={styles.editicon} alt="icon"/></div></>):(
                                 <span></span>
                             )}
                         </div>

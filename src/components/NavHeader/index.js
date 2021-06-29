@@ -1,4 +1,4 @@
-import React, { Children } from 'react'
+import React from 'react'
 import { NavBar } from 'antd-mobile'
 
 import { withRouter } from 'react-router'
