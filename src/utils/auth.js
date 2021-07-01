@@ -1,4 +1,4 @@
-const TOKEN_NAME = 'hkzf_token'
+const TOKEN_NAME = 'token'
 
 // 获取 token
 const getToken = () => localStorage.getItem(TOKEN_NAME)
