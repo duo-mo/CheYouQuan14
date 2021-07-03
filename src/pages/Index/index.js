@@ -17,8 +17,10 @@ export default class Index extends React.Component {
     this.setState({
       visible: false,
       selected: opt.props.value,
+
     });
-    this.props.history.push('/publish')
+    this.props.history.push('/' + opt.props.value)
+
   };
   handleVisibleChange = (visible) => {
     this.setState({
@@ -36,8 +38,8 @@ export default class Index extends React.Component {
               overlayStyle={{ color: 'currentColor' }}
               visible={this.state.visible}
               overlay={[
-                (<Item key="4" value="scan" icon={myImg(`${tuwen}`)} data-seed="logId">发图文</Item>),
-                (<Item key="5" value="special" icon={myImg(`${tiwen}`)} style={{ whiteSpace: 'nowrap' }}>提问</Item>),
+                (<Item key="4" value="publish" icon={myImg(`${tuwen}`)} data-seed="logId">发图文</Item>),
+                (<Item key="5" value="tiwen" icon={myImg(`${tiwen}`)} style={{ whiteSpace: 'nowrap' }}>提问</Item>),
               ]}
               placement={'topRight'}
               align={{

@@ -3,7 +3,29 @@ html,body{
   background-color: #fff;
   .footer{
     position: absolute;
-    bottom: 0;
+    // bottom: 0;
+    height: 50px;
+    width: 100%;
+    margin-top: 170px;
     color: red;
+    // .ChooseC{
+    //   // position: absolute;
+    //   width: 40%;
+    // }
+    .ChooseC{
+      position: absolute;
+      left: 15px;
+      width: 98px;
+      height: 22px;
+      font-family: PingFang-SC-Bold;
+      font-size: 16px;
+      color: #333333;
+      letter-spacing: 0;
+      font-weight: 700;
+      #wordsLength{
+position:absolute; right:5px; bottom:3vh;font-size:12px; color:#BDCADA
+      }
+    }
   }
 }
+
