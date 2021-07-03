@@ -7,6 +7,7 @@ html,body{
     height: 50px;
     width: 100%;
     margin-top: 170px;
+    // padding-bottom: 5px;
     color: red;
     // .ChooseC{
     //   // position: absolute;
@@ -14,7 +15,7 @@ html,body{
     // }
     .ChooseC{
       position: absolute;
-      left: 15px;
+      left: 15px;     
       width: 98px;
       height: 22px;
       font-family: PingFang-SC-Bold;
@@ -22,9 +23,22 @@ html,body{
       color: #333333;
       letter-spacing: 0;
       font-weight: 700;
-      #wordsLength{
-position:absolute; right:5px; bottom:3vh;font-size:12px; color:#BDCADA
-      }
+    }
+    .subbtn{
+      position: absolute;
+      right: 18px;
+      bottom: 25px;
+      width: 64px;
+      height: 24px;
+      background: #FFE100;
+      border-radius: 14px;
+      line-height: 24px;
+      font-size: 14px;
+color: #333333;
+letter-spacing: 0;
+text-align: center;
+line-height: 14px;
+font-weight: 500;
     }
   }
 }
