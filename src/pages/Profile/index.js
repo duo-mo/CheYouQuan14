@@ -62,6 +62,7 @@ export default class Profile extends React.Component{
           ])
     }
     async getUserInfo(){
+        console.log('还没登录')
         if(!this.state.isLogin){
             // 未登录
             return
@@ -74,14 +75,17 @@ export default class Profile extends React.Component{
             }
         })
 
-        console.log(res)
+        console.log('个人信息页面请求获取',res)
         if (res.data.status === 200){
-            const {avatar,nickname} = res.data.body
+            const {avatar,nickname,resume} = res.data.body
             console.log(avatar)
             this.setState({
                 userInfo:{
-                    avatar:BASE_URL + avatar,
-                    nickname
+                    // avatar:BASE_URL + avatar,
+                    avatar: avatar,
+                    nickname,
+                    resume
+
                 }
             })
         }else{
@@ -94,7 +98,8 @@ export default class Profile extends React.Component{
 
     render(){
         const {history} = this.props
-        const {isLogin,userInfo:{avatar,nickname}} = this.state
+        const {isLogin,userInfo:{avatar,nickname,resume}} = this.state
+        console.log(resume);
         return (
             
             <div className={styles.root}>
@@ -104,7 +109,6 @@ export default class Profile extends React.Component{
                    我的  
                 </NavHeader>
                 <div className={styles.title}>
-                    
                     {/* 头像 */}
                     <div className={styles.myIcon}>
                         <img className={styles.avatar} src={ avatar ||DEFAULT_AVATAR} alt="icon" />
@@ -114,7 +118,7 @@ export default class Profile extends React.Component{
                         <div className={styles.user}>
                             <div className={styles.name}>{nickname || '游客'}</div>
                             {/* 游客登录后显示 */}
-                            {isLogin ?(<><div className={styles.resume}>简介简介简介简介简介简介简介简介简介简介简介简介简介简介<img src={Editicoon} className={styles.editicon} alt="icon"/></div></>):(
+                            {isLogin ?(<><div className={styles.resume}>{resume}<img src={Editicoon} className={styles.editicon} alt="icon"/></div></>):(
                                 <span></span>
                             )}
                         </div>
