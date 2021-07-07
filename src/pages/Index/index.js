@@ -82,30 +82,92 @@ export default class Index extends React.Component {
         </NavBar>
         车友圈
       </NavHeader>
-      <nav className='nav'>
-        <span><img className='cqpic' src={chequan} alt='chequan'></img></span>
-        <span>热门车友圈</span>
-      </nav>
-      <nav className='Cciecle'>
-        <div className='card'>
-          <div className='title'>奥迪A4L奥迪A4L车友圈</div>
-          <div className='picShow'>
-            <img className='pics' src={picShow} alt='picShow'></img>
-            <img className='pics' src={picShow} alt='picShow'></img>
-            <img className='pics' src={picShow} alt='picShow'></img>
+      <div className='home'>
+        {/* 头部文字 */}
+        <nav className='nav'>
+          <span><img className='cqpic' src={chequan} alt='chequan'></img></span>
+          <span>热门车友圈</span>
+        </nav>
+        {/* 车友圈卡片 */}
+        <nav className='Cciecle'>
+          <div className='card'>
+            <div className='title'>奥迪A4L奥迪A4L车友圈</div>
+            <div className='picShow'>
+              <img className='pics' src={picShow} alt='picShow'></img>
+              <img className='pics' src={picShow} alt='picShow'></img>
+              <img className='pics' src={picShow} alt='picShow'></img>
+            </div>
+            <div className='describe'>
+              <img src={profile} alt='picShow'></img>
+              <img src={profile} alt='picShow'></img>
+              <img src={profile} alt='picShow'></img>
+              <img src={more} alt='picShow'></img>
+              <div className='details'>30402位活跃车友</div>
+              <div className='button'>
+                <div className='join'>加入</div>
+              </div>
+            </div>
           </div>
-          <div className='describe'>
-            <img src={profile} alt='picShow'></img>
-            <img src={profile} alt='picShow'></img>
-            <img src={profile} alt='picShow'></img>
-            <img src={more} alt='picShow'></img>
-            <div className='details'>30402位活跃车友</div>
-            <div className='button'>
-              <div className='join'>加入</div>
+        </nav>
+        {/* 分割线 */}
+        <div className='fenge'></div>
+        {/* 动态卡片 */}
+        <div className='trend'>
+          <div className='user'>
+            <div className='user_pro'>
+              <img src={profile} alt='user-pro'></img>
+            </div>
+            <div className='user_name'>
+              <div className='user_id'>九牧林131</div>
+              <div className='user_time'>6小时前</div>
+            </div>
+          </div>
+          <div className='contents'>
+            <div className='content'>马自达昂克赛拉 过年回家需要一辆实用的汽车不仅要大气还要能拉货的，年货准备充足，过年了，再多的年货我也装得下</div>
+            <div>
+              <img src={picShow} alt='pic'></img>
+              <img src={picShow} alt='pic'></img>
             </div>
           </div>
         </div>
-      </nav>
+        <div className='trend'>
+          <div className='user'>
+            <div className='user_pro'>
+              <img src={profile} alt='user-pro'></img>
+            </div>
+            <div className='user_name'>
+              <div className='user_id'>九牧林131</div>
+              <div className='user_time'>6小时前</div>
+            </div>
+          </div>
+          <div className='contents'>
+            <div className='content'>马自达昂克赛拉 过年回家需要一辆实用的汽车不仅要大气还要能拉货的，年货准备充足，过年了，再多的年货我也装得下</div>
+            <div>
+              <img src={picShow} alt='pic'></img>
+              <img src={picShow} alt='pic'></img>
+            </div>
+          </div>
+        </div>
+        <div className='trend'>
+          <div className='user'>
+            <div className='user_pro'>
+              <img src={profile} alt='user-pro'></img>
+            </div>
+            <div className='user_name'>
+              <div className='user_id'>九牧林131</div>
+              <div className='user_time'>6小时前</div>
+            </div>
+          </div>
+          <div className='contents'>
+            <div className='content'>马自达昂克赛拉 过年回家需要一辆实用的汽车不仅要大气还要能拉货的，年货准备充足，过年了，再多的年货我也装得下</div>
+            <div>
+              <img src={picShow} alt='pic'></img>
+              <img src={picShow} alt='pic'></img>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div >);
   }
 }

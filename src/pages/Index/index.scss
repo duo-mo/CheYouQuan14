@@ -1,4 +1,8 @@
 html,body{
+  .home{
+    padding-bottom: 50px;
+  }
+  // 头部文字
   .nav{
     padding: 8px 0 0 20px;
     font-family: PingFangSC-Medium;
@@ -13,6 +17,7 @@ html,body{
       padding-right: 1px;
     }
   }
+  //车友圈卡片
   .Cciecle{
     .card{
       position: relative;
@@ -81,6 +86,65 @@ html,body{
           }
         }
       }
+    }
+  }
+  //分割线
+  .fenge{
+    background: #EDEDED;
+    margin: 16px 0 0 16px;
+    width: 280px;
+    height: 0.5px;
+  }
+  //动态卡片
+  .trend{
+    .user{
+      position: relative;
+      margin: 16.5px 0 0 16px;
+      .user_pro{
+        display: inline-block;
+        img{
+          width: 36px;
+          height: 36px;
+          border: 0 solid #FFFFFF;
+        }
+      }
+      .user_name{
+        position: absolute;
+        top: 3px;
+        left: 45px;
+        color: #333333;
+        .user_id{
+          font-family: PingFangSC-Medium;
+          font-size: 14px;
+          color: #333333;
+          line-height: 14px;
+          font-weight: 500;
+          margin-bottom: 6px;
+        }
+        .user_time{
+         font-family: PingFangSC-Regular;
+         font-size: 12px;
+         color: #999999;
+         line-height: 12px;
+         font-weight: 400; 
+        }
+      }
+    }
+    .contents{
+      margin: 9px 0 0 16px;
+      width: 280px;
+      .content{
+        margin-bottom: 8px;
+      font-family: PingFangSC-Regular;
+      font-size: 16px;
+      color: #333333;
+      letter-spacing: 0;
+      line-height: 24px;
+      font-weight: 400;
+    }
+    img{
+      margin: 0 4px 4px 0;
+    }
     }
   }
 }
