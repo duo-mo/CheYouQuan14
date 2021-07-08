@@ -1,7 +1,7 @@
 import React from 'react'
 import NavHeader from '../../components/NavHeader'
 import { Modal,List } from 'antd-mobile'
-import { BASE_URL } from '../../utils/url'
+// import { BASE_URL } from '../../utils/url'
 import { API } from '../../utils/api'
 import { isAuth, getToken, removeToken } from '../../utils/auth'
 
@@ -15,7 +15,8 @@ import Newsicon from '../../assets/img/star.png'
 import Commentsicon from '../../assets/img/comments.png'
 
 
-const DEFAULT_AVATAR = BASE_URL+'/img/profile/avatar.png'
+// const DEFAULT_AVATAR = BASE_URL+'/img/profile/avatar.png'
+const DEFAULT_AVATAR = 'https://img.lichee.top/img/img_header_default.png'
 
 const alert=Modal.alert
 const Item = List.Item;
@@ -64,6 +65,7 @@ export default class Profile extends React.Component{
     async getUserInfo(){
         console.log('还没登录')
         if(!this.state.isLogin){
+            console.log(this.state.isLogin)
             // 未登录
             return
         }
@@ -90,8 +92,9 @@ export default class Profile extends React.Component{
             })
         }else{
             //token失效，isLogin设置为失效
+            removeToken()
             this.setState({
-              isLogin:false  
+              isLogin:false,
             })
         }
     }
