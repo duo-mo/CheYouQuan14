@@ -62,6 +62,7 @@ export default class Profile extends React.Component{
           ])
     }
     async getUserInfo(){
+        console.log('还没登录')
         if(!this.state.isLogin){
             // 未登录
             return

@@ -1,0 +1,150 @@
+html,body{
+  .home{
+    padding-bottom: 50px;
+  }
+  // 头部文字
+  .nav{
+    padding: 8px 0 0 20px;
+    font-family: PingFangSC-Medium;
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0;
+    line-height: 14px;
+    font-weight: 500;
+    .cqpic{
+      width: 20px;
+      height: 20px;
+      padding-right: 1px;
+    }
+  }
+  //车友圈卡片
+  .Cciecle{
+    .card{
+      position: relative;
+      margin: 9px 12px 0 16px;
+      width: 246px;
+      height: 177px;
+      background: #FFFFFF;
+      box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+      border-radius: 4px;
+      .title{
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        font-family: PingFang-SC-Bold;
+        font-size: 14px;
+        color: #333333;
+        line-height: 14px;
+        font-weight: 700;
+      }
+      .picShow{
+        position: absolute;
+        top: 38px;
+        left: 12px;
+        bottom: 42px;
+        .pics{
+          width: 73px;
+          height: 97px;
+          margin-right: 1.5px;
+        }
+      }
+      .describe{
+        width: 100%;
+        position: absolute;
+        top: 147px;
+        left: 12px;
+        img{
+          width: 12px;
+          height: 12px;
+          border: 0 solid #FFFFFF;
+        }
+        .details{
+          display: inline-block;
+          margin-left: 4px;
+          font-family: PingFangSC-Regular;
+          font-size: 12px;
+          color: #333333;
+          letter-spacing: 0;
+          line-height: 12px;
+          font-weight: 400;
+        }
+        .button{
+          display: inline-block;
+          margin-left: 17px;
+          background: #FFE100;
+          border-radius: 10px;
+          width: 44px;
+          height: 20px;
+          .join{
+            font-family: PingFang-SC-Medium;
+            font-size: 10px;
+            color: #333333;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 20px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+  //分割线
+  .fenge{
+    background: #EDEDED;
+    margin: 16px 0 0 16px;
+    width: 280px;
+    height: 0.5px;
+  }
+  //动态卡片
+  .trend{
+    .user{
+      position: relative;
+      margin: 16.5px 0 0 16px;
+      .user_pro{
+        display: inline-block;
+        img{
+          width: 36px;
+          height: 36px;
+          border: 0 solid #FFFFFF;
+        }
+      }
+      .user_name{
+        position: absolute;
+        top: 3px;
+        left: 45px;
+        color: #333333;
+        .user_id{
+          font-family: PingFangSC-Medium;
+          font-size: 14px;
+          color: #333333;
+          line-height: 14px;
+          font-weight: 500;
+          margin-bottom: 6px;
+        }
+        .user_time{
+         font-family: PingFangSC-Regular;
+         font-size: 12px;
+         color: #999999;
+         line-height: 12px;
+         font-weight: 400; 
+        }
+      }
+    }
+    .contents{
+      margin: 9px 0 0 16px;
+      width: 280px;
+      .content{
+        margin-bottom: 8px;
+      font-family: PingFangSC-Regular;
+      font-size: 16px;
+      color: #333333;
+      letter-spacing: 0;
+      line-height: 24px;
+      font-weight: 400;
+    }
+    img{
+      margin: 0 4px 4px 0;
+    }
+    }
+  }
+}
