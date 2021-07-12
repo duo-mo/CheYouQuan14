@@ -1,0 +1,69 @@
+.root {
+  height: 100%;
+  background-color: #fff;
+}
+.navHeader {
+  background-color: #fff;
+}
+.title{
+  font-size: 2em;
+  font-weight: bold;
+  height: 120px;
+  padding: 10px 4vw;
+  line-height: 120px;
+}
+.reg {
+  margin-top: 30px;
+  text-align: center;
+  color: rgb(130 124 124);
+}
+
+.formItem {
+  display: flex;
+  margin: 1vh 4vw;
+  height: 48.24px;
+
+  border-bottom: 1px solid #d8d7d87a;
+}
+.tip{
+  width: 25%;
+  font-size: 18px;
+  line-height: 48.24px;
+}
+.clear{
+  border: 0;
+  background-color: transparent;
+  outline: none;
+  font-size: 20px;
+}
+
+button{
+  margin-top: 3vh;
+  margin-left: 5vw;
+  display: block;
+  outline: 0 none;
+  -webkit-appearance: none;
+  padding: 0;
+  text-align: center;
+  font-size: 18px;
+  height: 50px;
+  line-height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  white-space: nowrap;
+  color: #fff;
+  background-color: rgb(255 204 50);
+  border: 1px solid rgb(255 204 50);
+  border-radius: 2px;
+  width: 80vw;
+}
+.errors {
+  color: red;
+}
+.view{
+  display: flex;
+}
+.eye{
+  font-size: 20px;
+}

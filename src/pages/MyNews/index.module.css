@@ -1,0 +1,9 @@
+.no_contnet_box{
+    text-align: center;
+    color: #999999;
+}
+.content{
+    width: 40vw;
+    height: auto;
+    margin-top:24vh;
+}
