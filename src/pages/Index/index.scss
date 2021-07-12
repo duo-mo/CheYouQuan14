@@ -1,0 +1,289 @@
+html,body{
+  .home{
+    padding-bottom: 50px;
+  }
+  // 头部文字
+  .nav{
+    padding: 8px 0 0 20px;
+    font-family: PingFangSC-Medium;
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0;
+    line-height: 14px;
+    font-weight: 500;
+    .cqpic{
+      width: 20px;
+      height: 20px;
+      padding-right: 1px;
+    }
+  }
+  //车友圈卡片
+  .Cciecle{
+    width: 100%;
+    overflow: hidden;
+    overflow-x: scroll;
+    white-space: nowrap;
+    .card{
+      display: inline-block;
+      white-space: normal;
+      position: relative;
+      margin: 9px 12px 0 16px;
+      width: 246px;
+      height: 177px;
+      background: #FFFFFF;
+      box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+      border-radius: 4px;
+      .title{
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        font-family: PingFang-SC-Bold;
+        font-size: 14px;
+        color: #333333;
+        line-height: 14px;
+        font-weight: 700;
+      }
+      .picShow{
+        position: absolute;
+        top: 38px;
+        left: 12px;
+        bottom: 42px;
+        .pics{
+          width: 73px;
+          height: 97px;
+          margin-right: 1.5px;
+        }
+      }
+      .describe{
+        width: 100%;
+        position: absolute;
+        top: 147px;
+        left: 12px;
+        img{
+          width: 12px;
+          height: 12px;
+          border: 0 solid #FFFFFF;
+          border-radius: 9px;
+        }
+        .details{
+          display: inline-block;
+          margin-left: 4px;
+          font-family: PingFangSC-Regular;
+          font-size: 12px;
+          color: #333333;
+          letter-spacing: 0;
+          line-height: 12px;
+          font-weight: 400;
+        }
+        .button{
+          display: inline-block;
+          margin-left: 47px;
+          background: #FFE100;
+          border-radius: 10px;
+          width: 44px;
+          height: 20px;
+          .join{
+            font-family: PingFang-SC-Medium;
+            font-size: 10px;
+            color: #333333;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 20px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+  //分割线
+  .fenge{
+    background: #EDEDED;
+    margin: 16px 0 0 16px;
+    width: 280px;
+    height: 0.5px;
+  }
+  //动态卡片
+  .trend{
+    .user{
+      position: relative;
+      margin: 16.5px 0 0 16px;
+      .user_pro{
+        display: inline-block;
+        img{
+          width: 36px;
+          height: 36px;
+          border: 0 solid #FFFFFF;
+        }
+      }
+      .user_name{
+        position: absolute;
+        top: 3px;
+        left: 45px;
+        color: #333333;
+        .user_id{
+          font-family: PingFangSC-Medium;
+          font-size: 14px;
+          color: #333333;
+          line-height: 14px;
+          font-weight: 500;
+          margin-bottom: 6px;
+        }
+        .user_time{
+         font-family: PingFangSC-Regular;
+         font-size: 12px;
+         color: #999999;
+         line-height: 12px;
+         font-weight: 400; 
+        }
+      }
+    }
+    .contents{
+      margin: 9px 0 0 16px;
+      width: 90%;
+      .content{
+        margin-bottom: 8px;
+      font-family: PingFangSC-Regular;
+      font-size: 16px;
+      color: #333333;
+      letter-spacing: 0;
+      line-height: 24px;
+      font-weight: 400;
+    }
+    img{
+      margin: 0 4px 4px 0;
+      width: 280px;
+      height: 373px;
+    }
+    }
+    .footen{
+      position: relative;
+      .discuss{
+        position: absolute;
+        top: 6px;
+        right: 25%;
+      }
+      .like{
+        position: absolute;
+        top: 6px;
+        right: 5%;
+      }
+    }
+  }
+}
+
+
+
+
+
+//  state = {
+//     tiezi: []
+//   };
+
+
+//   async getTiezi() {
+//     const res = await API.get(
+//       '/community/circle/circle_article_hot', {
+//       params: {
+//         community_id: 1,
+//         page: 1,
+//         limit: 3
+//       }
+//     })
+//     // console.log("数据为：", res.data);
+//     this.setState({
+//       tiezi: res.data
+//     })
+//   }
+
+//   componentDidMount() {
+//     this.getTiezi()
+//   }
+
+//   renderTiezi() {
+//     return this.state.tiezi.map(item => (
+//       <div key={item.id} onClick={() => this.turnArticle(item)}>
+//         <div>{item.content}</div>
+//         <div>{item.likes}</div>
+//         <div>{item.views}</div>
+//       </div>
+//     ))
+//   }
+
+
+//   <div>{this.renderTiezi()}</div>
+
+// --------------------------------------------
+// state = {
+//         //是否登陆
+//         isLogin:isAuth(),
+//         //用户信息
+//         userInfo:{
+//             avatar:'',
+//             nickname:'',
+//             resume:''
+//         }
+//     }
+
+//     //在进入页面时调用
+//     componentDidMount(){
+//         this.getUserInfo()
+//     }
+//     //退出
+//     logout=()=>{
+//         alert('提示', '是否确认退出？', [
+//             { text: '取消', onPress: () => console.log('取消') },
+//             { text: '退出', onPress: async () => {
+//                 //调用接口
+//                 const res = await API.post('/user/logout',null,{
+//                     headers:{
+//                         authorzation : getToken()
+//                     }
+//                 })
+//             console.log(res)
+
+//             //移除本地token
+//             removeToken()
+//             this.setState({
+//                 isLogin:false,
+//                 userInfo:{
+//                     avatar:'',
+//                     nickname:''
+//                 }
+//             })
+//             }}
+//           ])
+//     }
+//     async getUserInfo(){
+//         console.log('还没登录')
+//         if(!this.state.isLogin){
+//             // 未登录
+//             return
+//         }
+//         //发送请求，获取个人资料
+//         const res = await API.get('/user',{
+//             headers:{
+//                 //表示登录的token发给服务器的
+//                 authorzation:getToken()
+//             }
+//         })
+
+//         console.log('个人信息页面请求获取',res)
+//         if (res.data.status === 200){
+//             const {avatar,nickname,resume} = res.data.body
+//             console.log(avatar)
+//             this.setState({
+//                 userInfo:{
+//                     // avatar:BASE_URL + avatar,
+//                     avatar: avatar,
+//                     nickname,
+//                     resume
+
+//                 }
+//             })
+//         }else{
+//             //token失效，isLogin设置为失效
+//             this.setState({
+//               isLogin:false  
+//             })
+//         }
+//     }

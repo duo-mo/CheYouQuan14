@@ -1,36 +1,112 @@
 import React from 'react'
+import { API } from '../../utils/api';
 import './index.scss'
+import { getToken } from '../../utils/auth'
 import NavHeader from '../../components/NavHeader'
-import { ImagePicker } from 'antd-mobile';
-import empty from '../../assets/img/empty_pic.png'
+import { Toast } from 'antd-mobile';
+import { Upload, Modal } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+// import empty from '../../assets/img/empty_pic.png'
 
-const data = [{ url: empty }];
+// const data = [{ url: empty }];
 
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
 export default class btn extends React.Component {
+  getChildId = (data) => {
+    console.log(data);
+  }
   //图片选择器
   state = {
-    files: data,
+    // files: data,
+    content: '',
+    community_id: 0,
+    status: 0,
+    img_list: [],
+    previewVisible: false,
+    previewImage: '',
+    previewTitle: '',
+    fileList: [],
   }
+  handleCancel = () => this.setState({ previewVisible: false });
+  handlePreview = async file => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
 
-  onChange = (files, type, index) => {
-    // console.log(files, type, index);
-    // const Islen = files.length;
-    // console.log(Islen)
-    // if (Islen % 2 === 0) {
-    //   this.setState({
-    //     files,
-    //   })
-    // }
     this.setState({
-      files,
+      previewImage: file.url || file.preview,
+      previewVisible: true,
+      previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
     });
+  };
+
+  handleChange = ({ fileList }) => this.setState({ fileList }
+  );
+
+
+  //输入框值：value.target.value
+  //车友圈值:this.props.location.params.id
+  //获取输入框内值
+  getValue = (name, value) => {
+    // console.log(name, value.target.value);
+    // console.log(content);
+    this.setState({
+      [name]: value.target.value,
+      content: value.target.value
+    })
+
+  }
+  //提交数据
+  submit = async () => {
+    let { img_list, fileList, community_id, content, status } = this.state;
+    fileList.map(item => {
+      img_list.push(item.response.body)
+    })
+    // content = value.target.value
+    community_id = this.props.location.params.id
+    // console.log(img_list);
+    // console.log(content);
+    // console.log(community_id);
+    //post
+    const res = await API.post('/community/article/upload_article', { content, community_id, status, img_list }, {
+      headers: {
+        //表示登录的token发给服务器的
+        authorzation: getToken()
+      }
+    })
+    console.log(res);
+    if (res.data.status === 200) {
+      Toast.info('发布成功', 1, null, false)
+      this.props.history.push('/user/my_news')
+    }
+  }
+  //前往选车友圈页面
+  goChoose() {
+    this.props.history.push('/publish/choosec')
   }
   render() {
-    const { files } = this.state;
+    const { content } = this.state;
+    const { previewVisible, previewImage, fileList, previewTitle } = this.state;
+    const uploadButton = (
+      <div>
+        <PlusOutlined />
+        <div style={{ marginTop: 8 }}>Upload</div>
+      </div>
+    );
     return (
       <div>
-        <NavHeader>发布</NavHeader>
+        <NavHeader
+          style={{ position: 'fixed', top: '0px' }}>发布</NavHeader>
         <textarea
+          value={content}
+          onChange={val => this.getValue('content', val)}
           placeholder="请编辑内容" style={{
             fontFamily: 'PingFangSC-Regular',
             fontWeight: 400,
@@ -43,7 +119,28 @@ export default class btn extends React.Component {
             overflow: 'hidden'
           }}></textarea>
 
-        <ImagePicker
+        <>
+          <Upload
+            style={{ width: '33%' }}
+            action="http://car-service.lichee.top/img/upload_image"
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={this.handlePreview}
+            onChange={this.handleChange}
+          >
+            {fileList.length >= 9 ? null : uploadButton}
+          </Upload>
+          <Modal
+            style={{ width: '33%' }}
+            visible={previewVisible}
+            title={previewTitle}
+            footer={null}
+            onCancel={this.handleCancel}
+          >
+            <img alt="example" style={{ width: '100%' }} src={previewImage} />
+          </Modal>
+        </>
+        {/* <ImagePicker
           style={{
             width: '100%',
           }}
@@ -53,13 +150,13 @@ export default class btn extends React.Component {
           selectable={files.length < 12}
           accept="image/gif,image/jpeg,image/jpg,image/png"
           length='3'
-        />
+        /> */}
         <div style={{ clear: 'both' }}></div>
         <div className='footer'>
-          <div className='ChooseC' onClick={() => { this.props.history.push('/choosec') }}>
+          <div className='ChooseC' onClick={() => { this.goChoose() }}>
             选择车圈 &gt;
           </div>
-          <button className="subbtn" type='submit'>提交</button>
+          <button className="subbtn" type='submit' onClick={this.submit}>提交</button>
         </div>
       </div>
     )

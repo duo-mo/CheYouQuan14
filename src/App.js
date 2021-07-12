@@ -10,7 +10,7 @@ import Login from './pages/Login'
 import MyNews from './pages/MyNews'
 import MyComment from './pages/MyComment'
 import Publish from './pages/Publish'
-import ChooseC from './pages/ChooseC'
+import ChooseC from '../src/pages/Publish/ChooseC/index'
 import Circle from './pages/Circle'
 import Detail from './pages/Detail'
 //鉴权组件
@@ -30,8 +30,8 @@ function App() {
         {/* 默认路由重定向 */}
         <Route exact path='/' render={() => <Redirect to='/home' />}></Route>
         <Route path="/login" component={Login}></Route>
-        <Route path="/publish" component={Publish}></Route>
-        <Route path="/choosec" component={ChooseC}></Route>
+        <Route exact path="/publish" component={Publish}></Route>
+        <Route path="/publish/choosec" component={ChooseC}></Route>
 
 
         {/* 登录后才能访问的 */}
