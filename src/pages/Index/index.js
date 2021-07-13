@@ -2,7 +2,9 @@
 import React from 'react'
 import { API } from '../../utils/api'
 import { getToken } from '../../utils/auth'
+import time from '../../utils/time'
 import './index.scss'
+import { Toast } from 'antd-mobile';
 import NavHeader from '../../components/NavHeader'
 import { Popover, NavBar } from 'antd-mobile';
 import tuwen from '../../assets/img/ugc_icon_发图文.png'
@@ -17,6 +19,7 @@ import more from '../../assets/img/更多.png'
 // import { getToken } from '../../utils/auth';
 const Item = Popover.Item;
 const myImg = src => <img src={src} className="am-icon am-icon-xs" alt="" />;
+
 
 export default class Index extends React.Component {
   state = {
@@ -108,6 +111,29 @@ export default class Index extends React.Component {
       visible,
     });
   };
+  //加入圈子函数
+  joinQ() {
+    Toast.info('加入成功', 1, null, false)
+
+  }
+  //点赞函数
+  dianzan() {
+    Toast.info('点赞成功', 1, null, false)
+  }
+  //关注函数
+  async concern() {
+    const res = await API.post('/user/follow_user', {
+      headers: {
+        authorzation: getToken()
+      },
+      params: {
+        author_id: 1,
+      }
+    })
+    console.log(res);
+    Toast.info('关注成功', 1, null, false)
+
+  }
 
   render() {
     //渲染热门车友圈数据
@@ -135,7 +161,7 @@ export default class Index extends React.Component {
             <img src={more} alt='picShow'></img>
             <div className='details'>{item.active_num}位活跃车友</div>
             <div className='button'>
-              <div className='join'>加入</div>
+              <div className='join' onClick={this.joinQ}>加入</div>
             </div>
           </div>
         </div>
@@ -143,6 +169,7 @@ export default class Index extends React.Component {
     })
     //渲染首页列表数据
     let renderhome_list = this.state.home_list.map(item => {
+      let times = time(item.create_time)
       return (
         <div className='trend'>
           <div className='user'>
@@ -151,12 +178,13 @@ export default class Index extends React.Component {
             </div>
             <div className='user_name'>
               <div className='user_id'>{item.author_info.user_name}</div>
-              <div className='user_time'>6小时前</div>
+              <div className='user_time'>{times}</div>
             </div>
+            <div className='concern' onClick={this.concern}>关注</div>
           </div>
           <div className='contents'>
             <div className='content'>{item.content}</div>
-            <div>
+            <div className='picshow'>
               {item.img_list.map(item => {
                 return (
                   item.img_path.split(',').map(item => {
@@ -173,7 +201,7 @@ export default class Index extends React.Component {
               <span><img src={dicuss} alt="discuss" /></span>
               <span className="nums">{item.comments}</span>
             </div>
-            <div className='like'>
+            <div className='like' onClick={this.dianzan}>
               <span><img src={like} alt="like" /></span>
               <span className="nums">{item.likes}</span>
             </div>
