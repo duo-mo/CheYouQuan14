@@ -22,36 +22,41 @@ class MyNews extends React.Component{
     componentDidMount(){
         this.getNews()
     }
+    //跳转到详情
+    turnArticle({ id }) {
+        console.log(id);
+        localStorage.setItem('article_id', JSON.stringify({ id }))
+        this.props.history.push('/Detail')
+    }
 
     //删除动态
-    del_news=(e)=>{
-        console.log('asdfg',e)
+    del_news({ id }){
+        console.log('asdfg',id)
         alert('提示', '是否确认删除？', [
             { text: '取消', onPress: () => console.log('取消') },
             { text: '删除', onPress: async () => {
                 //调用接口
-                const res = await API.post('/user/del_news',
-                {id:'',
+                const res = await API.post('/community/del_news',
+                {article_id:id,
                 type:'news'
                 },{
                     headers:{
                         authorzation : getToken()
-                    },
-
+                    }
                 })
-            console.log(res)
+                console.log(res)
+                console.log()
+                console.log(res.data.body)
+                console.log(res.data.body.status)
+            if(res.data.status==200){
+                this.getNews()
+                
+            }
             
             }}
           ])
     }
-    // async del_news(props){
-    //     console.log(props)
-    //     const res=await API.put('./user/del',{
-    //         headers:{authorzation:getToken()},
-            
-    //         type:'news'
-    //     })
-    // }
+
     async getNews(){
         //发送请求，获取个人资料,用作当前页面用户
         const res = await API.get('/user/my_interflow',{
@@ -64,10 +69,10 @@ class MyNews extends React.Component{
         console.log('获取我的动态',res)
         if (res.data.status === 200){
             const {user_name,user_photo} = res.data.body[0]
-            console.log(user_name)
+            console.log('user_name',user_name)
             console.log(res.data.body[0].article_list)
             this.setState({
-                isContent:true,
+                isContent:res.data.body[0].article_list.length>0?true:false,
                 info:res.data.body[0].article_list,
                 userInfo:{
                     avatar:user_photo,
@@ -77,6 +82,7 @@ class MyNews extends React.Component{
             })
         }
     }
+    
 
     render(){
         const {isContent,userInfo:{nickname,avatar}} = this.state
@@ -84,20 +90,20 @@ class MyNews extends React.Component{
         let newsItem = this.state.info.map((item,key)=>{
             return (
                 <li key={key}>
-                    <div className={styles.news} >
+                    <div className={styles.news}  >
                         <div className={styles.news_left}> 
                         <img src={avatar} alt='用户头像' />
                         </div>
                         <div className={styles.news_right}>
                         <div className={styles.middle}>
                             <div className={styles.user_name}>{nickname}</div>
-                            <div className={styles.content}>
+                            <div className={styles.content} onClick={() => this.turnArticle(item)}>
                               {item.content}
                             </div>
                             <div className={styles.tips}>
                                 <span>{item.create_time.slice(5, 10)}</span>
                                 <span>{item.comments}评论</span>
-                                <img src={DeletePng} alt="删除" onClick={this.del_news} />
+                                <img src={DeletePng} alt="删除" onClick={() => this.del_news(item)}/>
                             </div>
                         </div>
                         <div className={styles.content_img} >

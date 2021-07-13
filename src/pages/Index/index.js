@@ -1,6 +1,7 @@
 
 import React from 'react'
 import { API } from '../../utils/api'
+import { getToken } from '../../utils/auth'
 import './index.scss'
 import NavHeader from '../../components/NavHeader'
 import { Popover, NavBar } from 'antd-mobile';
@@ -10,8 +11,8 @@ import like from '../../assets/img/ugc_icon_like_normal_24.svg'
 import liked from '../../assets/img/ugc_icon_like_selected_24.svg'
 import chequan from '../../assets/img/2-车友圈.png'
 import dicuss from '../../assets/img/评论.svg'
-import picShow from '../../assets/img/defautle.png'
-import profile from '../../assets/img/Mask.png'
+// import picShow from '../../assets/img/defautle.png'
+// import profile from '../../assets/img/Mask.png'
 import more from '../../assets/img/更多.png'
 // import { getToken } from '../../utils/auth';
 const Item = Popover.Item;
@@ -26,6 +27,7 @@ export default class Index extends React.Component {
       hot_circle_img: '',
       active_user_photo: '',
       active_num: 0,
+      isLogin: 0,
     }],
     home_list: [{
       content: '',
@@ -50,15 +52,33 @@ export default class Index extends React.Component {
   }
   //获取热门车友圈数据
   async getHotQuan() {
-    const res = await API.get('/community/get_community_hot', {
-      params: {
-        page: 1
-      }
-    })
-    // console.log(res)
-    this.setState({
-      hotquan: res.data.body
-    })
+    if (this.state.isLogin == 0) {
+      let res1 = await API.get('/community/get_community_hot', {
+        params: {
+          page: 1,
+          isLogin: 0
+        },
+      })
+      // console.log(res1)
+      this.setState({
+        hotquan: res1.data.body
+      })
+    } else {
+      let res2 = await API.get('/community/get_community_hot1', {
+        params: {
+          page: 1,
+          isLogin: 1
+        },
+        headers: {
+          authorzation: getToken()
+        }
+      })
+      // console.log(res2)
+      this.setState({
+        hotquan: res2.data.body
+      })
+    }
+
   }
   //获取首页列表数据
   async geCommunityHomeList() {
