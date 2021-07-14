@@ -19,6 +19,9 @@ import icon_profile1 from "../../assets/img/my1.png"
 import { API } from "../../utils/api.js"
 import tuwen from '../../assets/img/ugc_icon_发图文.png'
 import tiwen from '../../assets/img/03-发布.png'
+import like from '../../assets/img/ugc_icon_like_normal_24.svg'
+import liked from '../../assets/img/ugc_icon_like_selected_24.svg'
+import dicuss from '../../assets/img/评论.svg'
 import Detail from '../Detail'
 import time from '../../utils/time';
 import AuthRoute from '../../components/AuthRoute'
@@ -187,28 +190,33 @@ export default class Circle extends React.Component {
     renderTiezi() {
         return this.state.tiezi.map(item => (
             <div key={item.id} onClick={() => this.turnArticle(item)} style={{ marginTop: '10px' }}>
-                <div style={{ marginBottom: '10px', display: 'flex' }}>
-                    <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
-                    <div >
-                        <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
-                        <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
+                <div className='TZ-body'>
+                    <div style={{ marginBottom: '10px', display: 'flex' }}>
+                        <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
+                        <div >
+                            <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
+                            <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
+                        </div>
+                    </div>
+                    <div>{item.content}</div>
+                    {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
+                    <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
+                        {item.img_list.map(item => (
+                            <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path}></img>
+                        ))}
+                    </div>
+                    <div className='footen'>
+                        <div className='discuss'>
+                            <span><img src={dicuss} alt="discuss" /></span>
+                            <span className="nums">{item.comments}</span>
+                        </div>
+                        <div className='like'>
+                            <span><img src={like} alt="like" /></span>
+                            <span className="nums">{item.likes}</span>
+                        </div>
                     </div>
                 </div>
-                <div>{item.content}</div>
-                {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
-                <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
-                    {item.img_list.map(item => (
-                        <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path}></img>
-                    ))}
-                </div>
-                <div>
-                    <span>评论：{item.comments}</span>
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                    <span>喜欢：{item.likes}</span>
-                </div>
                 <WhiteSpace />
-
             </div>
 
         ))
@@ -217,34 +225,47 @@ export default class Circle extends React.Component {
     //渲染最新帖子
     renderNewTZ() {
         return this.state.newtz.map(item => (
-            <div key={item.id} onClick={() => this.turnArticle(item)} style={{ marginTop: '10px' }}>
-                <div style={{ marginBottom: '10px', display: 'flex' }}>
-                    <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
-                    <div >
-                        <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
-                        <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
+            <div key={item.id} style={{ marginTop: '10px' }}>
+                <div className='TZ-body'>
+                    <div className='test-m' onClick={() => this.turnArticle(item)}>
+                        <div style={{ marginBottom: '10px', display: 'flex' }}>
+                            <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
+                            <div >
+                                <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
+                                <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
+                            </div>
+                        </div>
+                        <div>{item.content}</div>
+                        {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
+                        <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
+                            {item.img_list.map(item => (
+                                <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path}></img>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className='footen'>
+                        <div className='discuss'>
+                            <span><img src={dicuss} alt="discuss" /></span>
+                            <span className="nums">{item.comments}</span>
+                        </div>
+                        <div className='like' >
+                            <span><img src={like} id='like-thumb' alt="like" onClick={() => this.thumbAdd(item)} /></span>
+                            <span className="nums">{item.likes}</span>
+                        </div>
                     </div>
                 </div>
-                <div>{item.content}</div>
-                {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
-                <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
-                    {item.img_list.map(item => (
-                        <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path}></img>
-                    ))}
-                </div>
-                <div>
-                    <span>评论：{item.comments}</span>
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                    <span>喜欢：{item.likes}</span>
-                </div>
                 <WhiteSpace />
-
             </div>
 
         ))
     }
-
+    thumbAdd = (e) => {
+        console.log('点赞+1');
+        console.log('当前点赞数:', e.likes);
+        e.likes++;
+        // $('#like-thumb').attr('src','liked')
+    }
     //渲染TabBar.Item
     renderTabBarItem() {
         return tabItems.map(item => <TabBar.Item
@@ -274,6 +295,8 @@ export default class Circle extends React.Component {
     returnPage() {
         console.log('1');
     }
+
+
 
     render() {
         return (
@@ -311,11 +334,11 @@ export default class Circle extends React.Component {
                     {/* 热门/最新切换Tab */}
 
                     {/* 渲染热门帖子 */}
-                    <div style={{ display: this.state.display_block, marginTop: '10px' }}>{this.renderTiezi()}</div>
+                    <div className='hot-TZ' style={{ display: this.state.display_block }}>{this.renderTiezi()}</div>
                     {/* 渲染热门帖子 */}
 
                     {/* 渲染最新帖子 */}
-                    <div style={{ display: this.state.display_none }}>{this.renderNewTZ()}</div>
+                    <div className='new-TZ' style={{ display: this.state.display_none }}>{this.renderNewTZ()}</div>
                     {/* 渲染最新帖子 */}
 
                 </WingBlank>

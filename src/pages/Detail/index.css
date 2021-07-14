@@ -19,3 +19,15 @@ text-align: center;
     margin-bottom: 20px;
     margin-top: 10px;
 }
+.comment-bar .reply-btn {
+    position: absolute;
+    bottom: -18px;
+    right: 184px;
+    width: 48px;
+    height: 24px;
+    border-radius: 12px;
+    background-color: #F4F5F6;
+    font-size: 12px;
+    line-height: 24px;
+    text-align: center;
+}

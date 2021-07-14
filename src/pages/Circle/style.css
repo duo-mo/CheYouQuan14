@@ -9,6 +9,7 @@
     margin-left: -73.5px !important;
 } */
 
+
 * {
     color: #333;
 }
@@ -115,14 +116,14 @@ font-weight: 500;
     justify-content: center
 }
 
-.m-tabs {
+.home .m-tabs {
     display: flex;
     position: sticky;
     top: 0;
     height: 44px;
+    z-index: 1;
     font-size: 16px;
     background-color: #fff;
-
 }
 
 .m-tabs .selectedTab div:first-child {
@@ -150,3 +151,29 @@ font-weight: 500;
 .m-tabs .unselectedTab div:last-child {
     display: none;
 }
+
+.TZ-body {
+    position: relative;
+    padding-bottom: 33px;
+  }
+
+  .footen .discuss{
+    position: absolute;
+    bottom: 8px;
+    right: 25%;
+  }
+  .footen .like{
+    position: absolute;
+    bottom: 8px;
+    right: 5%;
+  }
+  .hot-TZ {
+      margin-bottom: 20px;
+      margin-top: 10px ;
+  }
+  .new-TZ {
+    margin-bottom: 20px;
+    margin-top: 10px ;
+  }
+
+  

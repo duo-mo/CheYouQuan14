@@ -21,6 +21,7 @@ export default class Detail extends React.Component {
         this.state = {
             tzxq: [],
             comments: [],
+            subcomments: [],
             text: ""
         }
     }
@@ -52,6 +53,22 @@ export default class Detail extends React.Component {
             comments: res.data
         })
     }
+
+    ////获取子评论
+    // async getSubComments(pid_num) {
+    //     const res = await API.get(
+    //         '/community/article/get_comment', {
+    //         params: {
+    //             article_id: JSON.parse(window.localStorage.getItem('article_id')).id,
+    //             pid: pid_num
+    //         }
+    //     })
+    //     console.log("帖子子评论数据为：", res.data);
+    //     this.setState({
+    //         subcomments: res.data
+    //     })
+    // }
+
     //发布评论
     async postComments(cont) {
         // console.log("发布评论为：", cont);
@@ -73,6 +90,7 @@ export default class Detail extends React.Component {
     componentDidMount() {
         this.getTzxq()
         this.getComments()
+
     }
 
     //渲染帖子
@@ -104,19 +122,40 @@ export default class Detail extends React.Component {
             </div> : <div className='noMore'>没有更多了</div>
         ))
     }
+    //评论盖楼
+    replyComment = (e) => {
+        console.log('评论id为', e);
+        document.getElementById('replybox').placeholder = '回复ta...'
+        localStorage.setItem('this_pid', JSON.stringify(e))
+
+        //
+    }
+
+    //渲染子评论
+    // renderSubComments(pid) {
+    //     this.getSubComments(pid)
+    //     return this.state.subcomments.map(item => (
+    //         <div>
+    //             <div> {item.user.user_name} </div>
+    //             <div> {item.content} </div>
+    //         </div>
+    //     ))
+    // }
+
     //渲染评论模块
     renderComments() {
         return this.state.comments.map(item => (
-            <div key={item.id} style={{ marginTop: '10px', marginBottom: '18px' }}>
-                <div style={{ marginTop: '10px', marginBottom: '10px', display: 'flex' }}>
+            <div key={item.id} className='comment-bar' style={{ marginTop: '10px', marginBottom: '30px' }}>
+                <div style={{ position: 'relative', marginTop: '10px', marginBottom: '10px', display: 'flex' }}>
                     <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.user.user_photo}></img>
                     <div>
                         <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.user.user_name}</div>
                         <div style={{ marginTop: '5px' }}>{item.content}</div>
                         <div style={{ height: '5px', fontSize: '5px', color: '#999' }}> {time(item.create_time)} </div>
+                        <div className='reply-btn' onClick={() => this.replyComment(item.id)}>回复</div>
                     </div>
                 </div>
-
+                {/* <div> {this.renderSubComments(item.id)}</div> */}
             </div>
         ))
     }
@@ -128,6 +167,7 @@ export default class Detail extends React.Component {
             text: ""
         })
         this.getComments()
+        // window.location.reload()
 
     }
 
@@ -165,6 +205,7 @@ export default class Detail extends React.Component {
                 <div
                     style={{ display: 'flex', backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center', position: 'fixed', width: '100%', bottom: 0 }}>
                     <TextareaItem
+                        id='replybox'
                         autoHeight
                         autoFocus
                         placeholder="说点什么吧..."
