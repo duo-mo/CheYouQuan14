@@ -111,6 +111,18 @@ export default class Index extends React.Component {
       visible,
     });
   };
+  //热门车友圈详情
+  QuanDetails(item) {
+    const community_id = item.id;
+    console.log(community_id);
+    localStorage.setItem('community_id', JSON.stringify({ community_id }))
+    this.props.history.push('/Circle')
+  }
+  //动态详情
+  ListDetails(item) {
+    // Toast.info('详情', 1, null, false)
+    console.log(item.id);
+  }
   //加入圈子函数
   joinQ() {
     Toast.info('加入成功', 1, null, false)
@@ -139,7 +151,7 @@ export default class Index extends React.Component {
     //渲染热门车友圈数据
     let renderquancard = this.state.hotquan.map(item => {
       return (
-        <div className='card'>
+        <div className='card' key={item} onClick={() => this.QuanDetails(item)}>
           <div className='title'>{item.name}</div>
           <div className='picShow'>
             {
@@ -182,7 +194,7 @@ export default class Index extends React.Component {
             </div>
             <div className='concern' onClick={this.concern}>关注</div>
           </div>
-          <div className='contents'>
+          <div className='contents' onClick={() => this.ListDetails(item)} key={item}>
             <div className='content'>{item.content}</div>
             <div className='picshow'>
               {item.img_list.map(item => {
