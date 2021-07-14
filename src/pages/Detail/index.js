@@ -12,7 +12,7 @@ const data1 = Array.from(new Array(9)).map(() => ({
     icon: 'https://gw.alipayobjects.com/zos/rmsportal/WXoqXTHrSnRcUwEaQgXJ.png',
 }));
 
-
+localStorage.setItem('pid_last', JSON.stringify(0))
 
 export default class Detail extends React.Component {
     //改变div的className
@@ -21,6 +21,7 @@ export default class Detail extends React.Component {
         this.state = {
             tzxq: [],
             comments: [],
+            subcomments: [],
             text: ""
         }
     }
@@ -45,13 +46,35 @@ export default class Detail extends React.Component {
             '/community/article/get_comment', {
             params: {
                 article_id: JSON.parse(window.localStorage.getItem('article_id')).id,
+                pid: 0
             }
         })
-        console.log("帖子评论数据为：", res.data);
+        console.log("帖子一级评论数据为：", res.data);
         this.setState({
             comments: res.data
         })
     }
+
+    ////获取子评论
+    async getSubComments(pid_num) {
+        const res0 = await API.get(
+            '/community/article/get_comment', {
+            params: {
+                article_id: JSON.parse(window.localStorage.getItem('article_id')).id,
+                pid: pid_num
+            }
+        })
+        console.log("帖子子评论数据为：", res0.data);
+        this.setState({
+            subcomments: res0.data
+        })
+        // window.location.reload()
+        document.getElementById(JSON.parse(window.localStorage.getItem('pid_last'))).className = 'replyComment-undisplay'
+        document.getElementById(JSON.parse(window.localStorage.getItem('pid'))).className = 'replyComment-display'
+
+
+    }
+
     //发布评论
     async postComments(cont) {
         // console.log("发布评论为：", cont);
@@ -62,7 +85,7 @@ export default class Detail extends React.Component {
         // console.log('content类型：', typeof (cont));
         const res = await API.post(
             '/community/article/comment',
-            { article_id: JSON.parse(window.localStorage.getItem('article_id')).id, pid: 0, content: cont },
+            { article_id: JSON.parse(window.localStorage.getItem('article_id')).id, pid: JSON.parse(window.localStorage.getItem('this_pid')), content: cont },
             { headers: { authorzation: getToken() } }
         )
 
@@ -104,31 +127,101 @@ export default class Detail extends React.Component {
             </div> : <div className='noMore'>没有更多了</div>
         ))
     }
+    //评论盖楼
+    replyComment = (id, name) => {
+        console.log('评论id为', id);
+        document.getElementById('replybox').placeholder = '回复' + name
+        localStorage.setItem('this_pid', JSON.stringify(id))
+    }
+    replyArticle() {
+        console.log('回复帖子');
+        localStorage.setItem('this_pid', JSON.stringify(0))
+    }
+
+    //渲染子评论
+    // renderSubComments(id) {
+    //     this.getSubComments(JSON.parse(window.localStorage.getItem('pid')))
+    //         if (JSON.parse(window.localStorage.getItem('pid')) == id) {
+    //             return this.state.subcomments.map(item => (
+    //                 <div>
+    //                     <div> {item.user.user_name} </div>
+    //                     <div> {item.content} </div>
+    //                 </div>
+    //             ))
+    //         }
+    //         else {
+    //             return <div></div>
+    //         }
+    //     }
+
+    renderSubComments() {
+        // this.getSubComments(JSON.parse(window.localStorage.getItem('pid')))
+
+        return this.state.subcomments.map(item => (
+            <div>
+                <div> {item.user.user_name} </div>
+                <div> {item.content} </div>
+            </div>
+        ))
+    }
+
+    storagePid = (e) => {
+        console.log('pid', e);
+        const last_id = JSON.parse(window.localStorage.getItem('pid'))
+        localStorage.setItem('pid_last', JSON.stringify(last_id))
+        localStorage.setItem('pid', JSON.stringify(e))
+        this.getSubComments(e)
+    }
+    //onClick={this.getSubComments(item.id)}
+
     //渲染评论模块
     renderComments() {
         return this.state.comments.map(item => (
-            <div key={item.id} style={{ marginTop: '10px', marginBottom: '18px' }}>
-                <div style={{ marginTop: '10px', marginBottom: '10px', display: 'flex' }}>
+            <div key={item.id} className='comment-bar' style={{ marginTop: '10px', marginBottom: '30px' }} >
+                <div style={{ position: 'relative', marginTop: '10px', marginBottom: '10px', display: 'flex' }}>
                     <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.user.user_photo}></img>
                     <div>
                         <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.user.user_name}</div>
                         <div style={{ marginTop: '5px' }}>{item.content}</div>
                         <div style={{ height: '5px', fontSize: '5px', color: '#999' }}> {time(item.create_time)} </div>
+                        <div className='reply-btn' onClick={() => this.replyComment(item.id, item.user.user_name)}>回复</div>
+                        <div className='look-reply-btn' onClick={() => this.storagePid(item.id)}>查看回复</div>
+                        {/* <div> {() => this.storagePid(item.id)} </div> */}
                     </div>
                 </div>
-
+                <div id={item.id} className='replyComment-undisplay'>
+                    {this.state.subcomments.map(item => (
+                        <div>
+                            <div> {item.user.user_name} </div>
+                            <div> {item.content} </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         ))
     }
 
     handleSubmit = () => {
         console.log(this.state.text);
-        this.postComments(this.state.text)
-        this.setState({
-            text: ""
-        })
-        this.getComments()
+        if (this.state.text == "") {
+            console.log("请先输入内容");
+        } else {
+            this.postComments(this.state.text)
+            this.setState({
+                text: ""
+            })
+            this.getComments()
+        }
+        // window.location.reload()
+        localStorage.setItem('this_pid', JSON.stringify(0))
 
+    }
+    //回车发布评论（有误）
+    enterGo(e) {
+        if (e.keyCode == 13) {
+            console.log('enter');
+            this.handleSubmit()
+        }
     }
 
 
@@ -165,11 +258,14 @@ export default class Detail extends React.Component {
                 <div
                     style={{ display: 'flex', backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center', position: 'fixed', width: '100%', bottom: 0 }}>
                     <TextareaItem
+                        id='replybox'
                         autoHeight
                         autoFocus
                         placeholder="说点什么吧..."
                         value={text}
                         onChange={t => this.setState({ text: t })}
+                        onkeydown={event => this.enterGo(event)}
+                        // onDoubleClick={this.replyArticle()}
                         style={{
                             background: '#F4F5F6', fontSize: '14px',
                             border: '0 solid #E6E6E6', felx: 5, lineHeight: '32px', borderRadius: '16px', width: '300px', paddingLeft: '10px'
