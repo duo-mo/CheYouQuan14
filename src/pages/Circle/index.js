@@ -22,6 +22,7 @@ import tiwen from '../../assets/img/03-发布.png'
 import like from '../../assets/img/ugc_icon_like_normal_24.svg'
 import liked from '../../assets/img/ugc_icon_like_selected_24.svg'
 import dicuss from '../../assets/img/评论.svg'
+import more from '../../assets/img/更多.png'
 import Detail from '../Detail'
 import time from '../../utils/time';
 import AuthRoute from '../../components/AuthRoute'
@@ -103,12 +104,12 @@ export default class Circle extends React.Component {
     //改变div的className
 
 
-    //获取热门帖子信息
+    //获取热门帖子信息/////////////////////////////////////////////////////////////////////////
     async getTiezi() {
         const res = await API.get(
             '/community/circle/circle_article_hot', {
             params: {
-                community_id: 1,
+                community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id,
                 page: 1,
                 limit: 4
             }
@@ -124,7 +125,7 @@ export default class Circle extends React.Component {
         const res = await API.get(
             '/community/circle/circle_article_new', {
             params: {
-                community_id: 1,
+                community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id,
                 page: 1,
                 limit: 4
             }
@@ -140,10 +141,10 @@ export default class Circle extends React.Component {
         const res = await API.get(
             '/community/circle/circle_info', {
             params: {
-                community_id: 1
+                community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id
             }
         })
-        // console.log("数据为：", res.data);
+        console.log("圈子数据为：", res.data);
         this.setState({
             circle_info: res.data.body
         })
@@ -172,13 +173,21 @@ export default class Circle extends React.Component {
             <div className='carCircleIntr'>
                 <div>
                     <div className='carCircleIntr_name'>{item.name}</div>
-                    <div>圈主：
-                        <span></span>
+
+                    <div className='describe'>
+                        {item.active_user_photo.split(',').map(item => {
+                            return (
+                                <img src={item} alt='picShow'></img>)
+                        })
+                        }
+                        <img src={more} alt='picShow'></img>
+                        <div className='details'>等{item.all_num}位车友</div>
                     </div>
+
                     <div className='carCircleIntr_resume'>{item.circle_resume}</div>
                 </div>
                 <button id='joinButton'>加入</button>
-                <img src={item.img_path}></img>
+                <img id='beijing' src={item.img_path}></img>
             </div>
         ))
     }
@@ -264,7 +273,7 @@ export default class Circle extends React.Component {
         console.log('点赞+1');
         console.log('当前点赞数:', e.likes);
         e.likes++;
-        // $('#like-thumb').attr('src','liked')
+
     }
     //渲染TabBar.Item
     renderTabBarItem() {

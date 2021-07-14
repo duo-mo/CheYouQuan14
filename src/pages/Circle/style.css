@@ -101,7 +101,7 @@ font-weight: 500;
     font-weight: 400;
 }
 
-.carCircleIntr img {
+#beijing {
     position: absolute;
     overflow: hidden;
     height: 109px;
@@ -176,4 +176,21 @@ font-weight: 500;
     margin-top: 10px ;
   }
 
-  
+
+    .describe img{
+      width: 16px;
+      height: 16px;
+      border: 0 solid #FFFFFF;
+      border-radius: 8px;
+    }
+
+    .describe .details{
+        display: inline-block;
+        margin-left: 4px;
+        font-family: PingFangSC-Regular;
+        font-size: 12px;
+        color: #333333;
+        letter-spacing: 0;
+        line-height: 12px;
+        font-weight: 400;
+      }
