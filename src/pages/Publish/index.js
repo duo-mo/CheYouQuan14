@@ -3,12 +3,14 @@ import { API } from '../../utils/api';
 import './index.scss'
 import { getToken } from '../../utils/auth'
 import NavHeader from '../../components/NavHeader'
-import { Toast } from 'antd-mobile';
+// import { Toast } from 'antd-mobile';
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { Toast } from 'antd-mobile';
 // import empty from '../../assets/img/empty_pic.png'
 
 // const data = [{ url: empty }];
+const alert = Modal.alert;
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -18,6 +20,8 @@ function getBase64(file) {
     reader.onerror = error => reject(error);
   });
 }
+
+
 export default class btn extends React.Component {
   getChildId = (data) => {
     console.log(data);
@@ -27,7 +31,7 @@ export default class btn extends React.Component {
     // files: data,
     content: '',
     community_id: 0,
-    status: 0,
+    status: 1,
     img_list: [],
     previewVisible: false,
     previewImage: '',
@@ -49,7 +53,6 @@ export default class btn extends React.Component {
 
   handleChange = ({ fileList }) => this.setState({ fileList }
   );
-
 
   //输入框值：value.target.value
   //车友圈值:this.props.location.params.id
@@ -81,11 +84,28 @@ export default class btn extends React.Component {
         authorzation: getToken()
       }
     })
-    console.log(res);
+    // console.log(res);
+    // console.log(content);
     if (res.data.status === 200) {
       Toast.info('发布成功', 1, null, false)
       this.props.history.push('/user/my_news')
     }
+  }
+  //弹出
+  Back() {
+    this.props.history.push('/home')
+  }
+  //存入草稿箱
+  SaveInfo() {
+    let { content } = this.state
+    let quanId = this.props.location.params.id
+    // Toast.info('存入成功', 1.5, null, true)
+    // console.log(content);//内容success
+    // console.log(this.props.location.params.id);//车圈idsuccess
+    localStorage.setItem('caogaoContent', JSON.stringify({
+      content, quanId
+    }))
+
   }
   //前往选车友圈页面
   goChoose() {
@@ -103,6 +123,7 @@ export default class btn extends React.Component {
     return (
       <div>
         <NavHeader
+          onLeftClick={() => { this.Back() }}
           style={{ position: 'fixed', top: '0px' }}>发布</NavHeader>
         <textarea
           value={content}
@@ -155,6 +176,9 @@ export default class btn extends React.Component {
         <div className='footer'>
           <div className='ChooseC' onClick={() => { this.goChoose() }}>
             选择车圈 &gt;
+          </div>
+          <div className='saveInfo' onClick={() => this.SaveInfo()}>
+            存入草稿箱
           </div>
           <button className="subbtn" type='submit' onClick={this.submit}>提交</button>
         </div>
