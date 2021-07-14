@@ -69,8 +69,15 @@ export default class Detail extends React.Component {
             subcomments: res0.data
         })
         // window.location.reload()
-        document.getElementById(JSON.parse(window.localStorage.getItem('pid_last'))).className = 'replyComment-undisplay'
-        document.getElementById(JSON.parse(window.localStorage.getItem('pid'))).className = 'replyComment-display'
+        const pid_last = JSON.parse(window.localStorage.getItem('pid_last'))
+        const pid = JSON.parse(window.localStorage.getItem('pid'))
+        if (pid_last == 0) {
+            document.getElementById(JSON.parse(window.localStorage.getItem('pid'))).className = 'replyComment-display'
+        } else {
+            document.getElementById(pid_last).className = 'replyComment-undisplay'
+            document.getElementById(pid).className = 'replyComment-display'
+        }
+
 
 
     }
@@ -184,16 +191,14 @@ export default class Detail extends React.Component {
                         <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.user.user_name}</div>
                         <div style={{ marginTop: '5px' }}>{item.content}</div>
                         <div style={{ height: '5px', fontSize: '5px', color: '#999' }}> {time(item.create_time)} </div>
-                        <div className='reply-btn' onClick={() => this.replyComment(item.id, item.user.user_name)}>回复</div>
                         <div className='look-reply-btn' onClick={() => this.storagePid(item.id)}>查看回复</div>
-                        {/* <div> {() => this.storagePid(item.id)} </div> */}
+                        <div className='reply-btn' onClick={() => this.replyComment(item.id, item.user.user_name)}>回复</div>
                     </div>
                 </div>
                 <div id={item.id} className='replyComment-undisplay'>
                     {this.state.subcomments.map(item => (
                         <div>
-                            <div> {item.user.user_name} </div>
-                            <div> {item.content} </div>
+                            <span> {item.user.user_name} </span>: <span>{item.content}</span>
                         </div>
                     ))}
                 </div>
