@@ -1,7 +1,7 @@
 import React from 'react'
 import NavHeader from '../../components/NavHeader'
 import { Modal, List } from 'antd-mobile'
-import { BASE_URL } from '../../utils/url'
+// import { BASE_URL } from '../../utils/url'
 import { API } from '../../utils/api'
 import { isAuth, getToken, removeToken } from '../../utils/auth'
 
@@ -15,8 +15,7 @@ import Newsicon from '../../assets/img/star.png'
 import Commentsicon from '../../assets/img/comments.png'
 
 
-const DEFAULT_AVATAR = BASE_URL + '/img/profile/avatar.png'
-
+const DEFAULT_AVATAR = 'https://img.lichee.top/img/img_header_default.png'
 const alert = Modal.alert
 const Item = List.Item;
 
@@ -98,6 +97,8 @@ export default class Profile extends React.Component {
     }
   }
 
+
+
   render() {
     const { history } = this.props
     const { isLogin, userInfo: { avatar, nickname, resume } } = this.state
@@ -112,7 +113,7 @@ export default class Profile extends React.Component {
         </NavHeader>
         <div className={styles.title}>
           {/* 头像 */}
-          <div className={styles.myIcon}>
+          <div className={styles.myIcon} >
             <img className={styles.avatar} src={avatar || DEFAULT_AVATAR} alt="icon" />
           </div>
           {/* 昵称与简介信息 */}
