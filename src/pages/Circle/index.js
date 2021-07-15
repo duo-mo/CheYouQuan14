@@ -26,6 +26,7 @@ import more from '../../assets/img/更多.png'
 import Detail from '../Detail'
 import time from '../../utils/time';
 import AuthRoute from '../../components/AuthRoute'
+import { getToken } from '../../utils/auth'
 const myImg = src => <img src={src} className="am-icon-mm" alt="" />;
 
 {/* <AuthRoute path='/Detail' component={Detail}></AuthRoute> */ }
@@ -104,7 +105,7 @@ export default class Circle extends React.Component {
     //改变div的className
 
 
-    //获取热门帖子信息/////////////////////////////////////////////////////////////////////////
+    //获取热门帖子信息
     async getTiezi() {
         const res = await API.get(
             '/community/circle/circle_article_hot', {
@@ -151,6 +152,7 @@ export default class Circle extends React.Component {
         console.log("数据为：", this.state.circle_info);
     }
 
+
     //钩子函数
     componentDidMount() {
         this.getTiezi()
@@ -164,6 +166,22 @@ export default class Circle extends React.Component {
         //存储到本地缓存
         localStorage.setItem('article_id', JSON.stringify({ id }))
         this.props.history.push('/Detail')
+    }
+
+    //点赞/取消点赞
+    async likeArticle(article_id) {
+        const res = await API.post(
+            '/community/like_article',
+            { article_id: article_id },
+            { headers: { authorzation: getToken() } }
+        )
+        console.log("点赞数据为：", res.data);
+        // this.setState({
+        //     circle_info: res.data.body
+        // })
+        // console.log("数据为：", this.state.circle_info);
+        this.setState({ newTZ: [] })
+        this.getNewTZ()
     }
 
     //渲染车圈简介
@@ -259,7 +277,7 @@ export default class Circle extends React.Component {
                             <span className="nums">{item.comments}</span>
                         </div>
                         <div className='like' >
-                            <span><img src={like} id='like-thumb' alt="like" onClick={() => this.thumbAdd(item)} /></span>
+                            <span><img src={like} id='like-thumb' alt="like" onClick={() => this.likeArticle(item.id)} /></span>
                             <span className="nums">{item.likes}</span>
                         </div>
                     </div>
@@ -269,12 +287,7 @@ export default class Circle extends React.Component {
 
         ))
     }
-    thumbAdd = (e) => {
-        console.log('点赞+1');
-        console.log('当前点赞数:', e.likes);
-        e.likes++;
 
-    }
     //渲染TabBar.Item
     renderTabBarItem() {
         return tabItems.map(item => <TabBar.Item
