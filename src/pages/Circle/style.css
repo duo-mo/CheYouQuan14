@@ -157,6 +157,15 @@ font-weight: 500;
     padding-bottom: 33px;
   }
 
+  .TZ-body .TZ-content{
+    text-align: justify;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+  }
+
   .footen .discuss{
     position: absolute;
     bottom: 8px;

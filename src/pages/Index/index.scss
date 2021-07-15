@@ -104,11 +104,14 @@ html,body{
   }
   //动态卡片
   .trend{
+    margin-top: 20px;
     .user{
       position: relative;
       margin: 16.5px 0 0 16px;
       .user_pro{
         display: inline-block;
+        border-radius: 18px;
+        overflow: hidden;
         img{
           width: 36px;
           height: 36px;
@@ -136,6 +139,22 @@ html,body{
          font-weight: 400; 
         }
       }
+      .concern{
+        position: absolute;
+        top: 3px;
+        right: 5%;
+        background: #FFE100;
+        border-radius: 14px;
+        width: 64px;
+        height: 28px;
+        font-family: PingFangSC-Semibold;
+        font-size: 14px;
+        color: #333333;
+        letter-spacing: 0;
+        text-align: center;
+        font-weight: 600;
+        line-height: 28px;
+      }
     }
     .contents{
       margin: 9px 0 0 16px;
@@ -148,14 +167,22 @@ html,body{
       letter-spacing: 0;
       line-height: 24px;
       font-weight: 400;
-      height: 140px;
-      overflow: hidden;
-      text-overflow:ellipsis;
+      word-break: break-all;
+      text-overflow: ellipsis;
+      display: -webkit-box; /** 将对象作为伸缩盒子模型显示 **/
+      -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+      -webkit-line-clamp: 4; /** 显示的行数 **/
+      overflow: hidden;  /** 隐藏超出的内容 **/      
     }
-    img{
+    .picshow{
+      flex-wrap: wrap;
+      flex-direction: row;
+      padding-top: 10px;
+      img{
       margin: 0 4px 4px 0;
-      width: 280px;
-      height: 373px;
+      width: 45%;
+      height: 113px;
+    }
     }
     }
     .footen{
