@@ -22,8 +22,25 @@ text-align: center;
 .comment-bar .reply-btn {
     position: absolute;
     bottom: -18px;
+<<<<<<< HEAD
     right: 184px;
     width: 48px;
+=======
+    right: 120px;
+    width: 58px;
+    height: 24px;
+    border-radius: 12px;
+    background-color: #F4F5F6;
+    font-size: 12px;
+    line-height: 24px;
+    text-align: center;
+}
+.comment-bar .look-reply-btn {
+    position: absolute;
+    bottom: -18px;
+    right: 184px;
+    width: 58px;
+>>>>>>> feat-zhangzhen
     height: 24px;
     border-radius: 12px;
     background-color: #F4F5F6;
@@ -34,4 +51,30 @@ text-align: center;
 
 .comment-bar .replyComment-undisplay {
     display: none;
+<<<<<<< HEAD
+=======
+}
+.comment-bar .replyComment-display {
+    transition: opacity 3s ease-in 2s;
+    border-left: #E6E6E6 2px solid;
+    margin-left: 30px;
+    margin-top: 28px;
+    padding-left: 20px;
+
+}
+.comment-bar .replyComment-display span:first-child {
+    font-family: PingFang-SC-Medium;
+    color: #333333;
+    letter-spacing: 0;
+    line-height: 20px;
+    font-weight: 500;
+}
+.comment-bar .replyComment-display span:last-child {
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0;
+    line-height: 20px;
+    font-weight: 400;
+>>>>>>> feat-zhangzhen
 }

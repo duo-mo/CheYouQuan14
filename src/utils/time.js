@@ -21,7 +21,8 @@ export default function time(UTCtiem) {
     var milliseconds = 0;
     var timeSpanStr;
 
-    milliseconds = now_new - no1new;
+    milliseconds = now_new - no1new - 480000;
+    // console.log('milliseconds:', milliseconds);
 
     if (milliseconds <= 1000 * 60 * 1) {
         timeSpanStr = '刚刚';
