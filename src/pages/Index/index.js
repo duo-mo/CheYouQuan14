@@ -1,7 +1,6 @@
-
 import React from 'react'
 import { API } from '../../utils/api'
-import { getToken } from '../../utils/auth'
+import { getToken,isAuth } from '../../utils/auth'
 import time from '../../utils/time'
 import './index.scss'
 import { Toast } from 'antd-mobile';
@@ -25,12 +24,14 @@ export default class Index extends React.Component {
   state = {
     visible: false,
     selected: '',
+    isLogin: isAuth(),
     hotquan: [{
       name: '',
       hot_circle_img: '',
       active_user_photo: '',
       active_num: 0,
       isLogin: 0,
+
     }],
     home_list: [{
       content: '',
@@ -55,14 +56,17 @@ export default class Index extends React.Component {
   }
   //获取热门车友圈数据
   async getHotQuan() {
-    if (this.state.isLogin == 0) {
+    if (!this.state.isLogin) {
       let res1 = await API.get('/community/get_community_hot', {
         params: {
-          page: 1,
+          page: 3,
           isLogin: 0
         },
+        headers: {
+          authorzation: getToken()
+        }
       })
-      // console.log(res1)
+      console.log('unlogin',res1)
       this.setState({
         hotquan: res1.data.body
       })
@@ -76,7 +80,7 @@ export default class Index extends React.Component {
           authorzation: getToken()
         }
       })
-      // console.log(res2)
+      console.log('login',res2)
       this.setState({
         hotquan: res2.data.body
       })

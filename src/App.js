@@ -30,8 +30,8 @@ function App() {
         {/* 默认路由重定向 */}
         <Route exact path='/' render={() => <Redirect to='/home' />}></Route>
         <Route path="/login" component={Login}></Route>
-        <Route exact path="/publish" component={Publish}></Route>
-        <Route path="/publish/choosec" component={ChooseC}></Route>
+        <AuthRoute exact path="/publish" component={Publish}></AuthRoute>
+        <AuthRoute path="/publish/choosec" component={ChooseC}></AuthRoute>
 
 
         {/* 登录后才能访问的 */}
