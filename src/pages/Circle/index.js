@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList } from 'react-native'
+//import { FlatList } from 'react-native'
 // 1.导入路由
 import { Route, Link } from 'react-router-dom'
 //2.导入组件
