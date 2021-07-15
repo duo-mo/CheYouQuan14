@@ -22,10 +22,6 @@ text-align: center;
 .comment-bar .reply-btn {
     position: absolute;
     bottom: -18px;
-<<<<<<< HEAD
-    right: 184px;
-    width: 48px;
-=======
     right: 120px;
     width: 58px;
     height: 24px;
@@ -40,7 +36,6 @@ text-align: center;
     bottom: -18px;
     right: 184px;
     width: 58px;
->>>>>>> feat-zhangzhen
     height: 24px;
     border-radius: 12px;
     background-color: #F4F5F6;
@@ -51,8 +46,6 @@ text-align: center;
 
 .comment-bar .replyComment-undisplay {
     display: none;
-<<<<<<< HEAD
-=======
 }
 .comment-bar .replyComment-display {
     transition: opacity 3s ease-in 2s;
@@ -76,5 +69,4 @@ text-align: center;
     letter-spacing: 0;
     line-height: 20px;
     font-weight: 400;
->>>>>>> feat-zhangzhen
 }
