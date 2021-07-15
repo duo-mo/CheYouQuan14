@@ -38,24 +38,6 @@ export default class btn extends React.Component {
     previewTitle: '',
     fileList: [],
   }
-
-  componentDidMount() {
-    this.Ifnull()
-  }
-  //判断空值渲染草稿
-  Ifnull() {
-    // console.log(123);
-    if (localStorage.getItem("caogaoContent") != null) {
-      const caogaotext = JSON.parse(window.localStorage.getItem('caogaoContent')).content
-      const caogaoquanId = JSON.parse(window.localStorage.getItem('caogaoContent')).quanId
-      console.log(caogaotext);
-      console.log(caogaoquanId);
-      this.setState({
-        content: caogaotext,
-        community_id: caogaoquanId
-      })
-    }
-  }
   handleCancel = () => this.setState({ previewVisible: false });
   handlePreview = async file => {
     if (!file.url && !file.preview) {
@@ -117,13 +99,26 @@ export default class btn extends React.Component {
   SaveInfo() {
     let { content } = this.state
     let quanId = this.props.location.params.id
-    Toast.info('存入成功', 1.5, null, true)
+    // Toast.info('存入成功', 1.5, null, true)
     // console.log(content);//内容success
     // console.log(this.props.location.params.id);//车圈idsuccess
     localStorage.setItem('caogaoContent', JSON.stringify({
       content, quanId
     }))
-
+  }
+  //判断空值渲染草稿
+  Ifnull() {
+    // console.log(123);
+    if (localStorage.getItem("caogaoContent") != null) {
+      const caogaotext = JSON.parse(window.localStorage.getItem('caogaoContent')).content
+      const caogaoquanId = JSON.parse(window.localStorage.getItem('caogaoContent')).quanId
+      console.log(caogaotext);
+      console.log(caogaoquanId);
+      this.setState({
+        content: caogaotext,
+        community_id: caogaoquanId
+      })
+    }
   }
   //前往选车友圈页面
   goChoose() {
@@ -142,7 +137,7 @@ export default class btn extends React.Component {
       <div>
         <NavHeader
           onLeftClick={() => { this.Back() }}
-          style={{ position: 'fixed', top: '0px' }}>发布</NavHeader>
+          style={{ position: 'fixed', top: '0px' }}>提问</NavHeader>
         <textarea
           value={content}
           onChange={val => this.getValue('content', val)}
