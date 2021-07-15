@@ -1,5 +1,5 @@
 import React from 'react'
-// import { Flastlist } from 'reat-native'
+import { FlatList } from 'react-native'
 // 1.导入路由
 import { Route, Link } from 'react-router-dom'
 //2.导入组件
@@ -9,7 +9,7 @@ import axios from 'axios'
 //鉴权组件
 // import AuthRoute from '../../components/AuthRoute'
 //导入tabbar
-import { WingBlank, TabBar, NavBar, Icon, Tabs, WhiteSpace, Grid } from 'antd-mobile';
+import { WingBlank, TabBar, NavBar, Icon, Tabs, WhiteSpace, ListView } from 'antd-mobile';
 // import { StickyContainer, Sticky } from 'react-sticky';
 import './style.css'
 import icon_cyq0 from "../../assets/img/cyq0.png"
@@ -29,24 +29,14 @@ import AuthRoute from '../../components/AuthRoute'
 import { getToken } from '../../utils/auth'
 const myImg = src => <img src={src} className="am-icon-mm" alt="" />;
 
-{/* <AuthRoute path='/Detail' component={Detail}></AuthRoute> */ }
 
-const tabs = [
-    { title: '热门', key: 't1' },
-    { title: '最新', key: 't2' },
-];
 //Tabs标签
-
 const tabItems = [{
     title: '图文',
-    icon: icon_cyq0,
-    selectedIcon: icon_cyq01,
     path: '/home'
 },
 {
     title: '问答',
-    icon: icon_profile0,
-    selectedIcon: icon_profile1,
     path: '/home/profile'
 }]
 
@@ -71,7 +61,7 @@ export default class Circle extends React.Component {
             selectedTab: this.props.location.pathname,
             tiezi: [],
             circle_info: [],
-            newtz: []
+            newtz: [],
         }
     }
     del_0 = () => {
@@ -112,7 +102,8 @@ export default class Circle extends React.Component {
             params: {
                 community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id,
                 page: 1,
-                limit: 4
+                limit: 4,
+                user_id: JSON.parse(window.localStorage.getItem('my_id'))
             }
         })
         console.log("热门帖子数据为：", res.data);
@@ -128,7 +119,8 @@ export default class Circle extends React.Component {
             params: {
                 community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id,
                 page: 1,
-                limit: 4
+                limit: 4,
+                user_id: JSON.parse(window.localStorage.getItem('my_id'))
             }
         })
         console.log("最新帖子数据为：", res.data);
@@ -152,12 +144,23 @@ export default class Circle extends React.Component {
         console.log("数据为：", this.state.circle_info);
     }
 
+    //获取自己的id
+    async getMyID() {
+        const res = await API.get(
+            '/user', {
+            params: {
+                community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id
+            }
+        })
+    }
+
 
     //钩子函数
     componentDidMount() {
         this.getTiezi()
         this.getCircle()
         this.getNewTZ()
+        this.getMyID()
     }
 
     //本地缓存
@@ -169,20 +172,38 @@ export default class Circle extends React.Component {
     }
 
     //点赞/取消点赞
-    async likeArticle(article_id) {
+    async likeArticle(article_id, article_likes) {
+        console.log('当前article_id为', article_id);
         const res = await API.post(
             '/community/like_article',
             { article_id: article_id },
             { headers: { authorzation: getToken() } }
         )
-        console.log("点赞数据为：", res.data);
-        // this.setState({
-        //     circle_info: res.data.body
-        // })
-        // console.log("数据为：", this.state.circle_info);
-        this.setState({ newTZ: [] })
+        console.log("点赞数据为：", res.data.body);
+        const id = 'like-' + article_id
+        // console.log(document.getElementById(id));
+        // console.log(res.data.body.iscancelstar);
+        // if (res.data.body.iscancelstar == true) {
+        //     document.getElementById(id).className = 'dislike-' + article_id
+        // } else {
+        //     document.getElementById(id).className = 'like-' + article_id
+        // }
+        this.setState({ newTZ: [], tiezi: [] })
+        this.getTiezi()
         this.getNewTZ()
     }
+
+
+    //加入车圈
+    async joinCircle() {
+        const res = await API.post(
+            '/community/circle/add_community',
+            { article_id: JSON.parse(window.localStorage.getItem('community_id')).community_id },
+            { headers: { authorzation: getToken() } }
+        )
+        console.log('加入车圈', res);
+    }
+
 
     //渲染车圈简介
     renderCirHead() {
@@ -204,53 +225,126 @@ export default class Circle extends React.Component {
 
                     <div className='carCircleIntr_resume'>{item.circle_resume}</div>
                 </div>
-                <button id='joinButton'>加入</button>
+                {/* onClick={this.joinCircle()} */}
+                <button id='joinButton' >加入</button>
                 <img id='beijing' src={item.img_path}></img>
             </div>
         ))
     }
 
 
+    async returnClass(article_id) {
+        const res = await API.post(
+            '/community/like_article',
+            { article_id: article_id },
+            { headers: { authorzation: getToken() } }
+        )
+        const id = 'like-' + article_id
+        if (res.data.body.iscancelstar == false) {
+            document.getElementById(id).className = 'dislike-' + article_id
+        } else {
+            document.getElementById(id).className = 'like-' + article_id
+        }
+    }
 
 
     //渲染热门帖子
     renderTiezi() {
+
         return this.state.tiezi.map(item => (
-            <div key={item.id} onClick={() => this.turnArticle(item)} style={{ marginTop: '10px' }}>
+            <div key={item.id} style={{ marginTop: '10px' }}>
                 <div className='TZ-body'>
-                    <div style={{ marginBottom: '10px', display: 'flex' }}>
-                        <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
-                        <div >
-                            <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
-                            <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
+                    <div className='test-m' onClick={() => this.turnArticle(item)}>
+                        <div style={{ marginBottom: '10px', display: 'flex' }}>
+                            <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
+                            <div >
+                                <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
+                                <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>{item.content}</div>
-                    {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
-                    <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
-                        {item.img_list.map(item => (
-                            <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path}></img>
-                        ))}
+                        <div className='TZ-content'>{item.content} 查看全文 </div>
+                        {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
+                        <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
+                            {item.img_list.map(item => (
+                                <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path}></img>
+                            ))}
+                        </div>
                     </div>
                     <div className='footen'>
                         <div className='discuss'>
                             <span><img src={dicuss} alt="discuss" /></span>
                             <span className="nums">{item.comments}</span>
                         </div>
-                        <div className='like'>
-                            <span><img src={like} alt="like" /></span>
-                            <span className="nums">{item.likes}</span>
-                        </div>
+                        {
+                            item.is_likes == 1 ?
+                                (
+                                    <div className={'like-' + item.id} id={'like-' + item.id} >
+                                        <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
+                                        <span className="nums">{item.likes}</span>
+                                    </div>
+                                ) :
+                                (
+                                    <div className={'dislike-' + item.id} id={'like-' + item.id} >
+                                        <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
+                                        <span className="nums">{item.likes}</span>
+                                    </div>
+                                )
+                        }
                     </div>
                 </div>
                 <WhiteSpace />
             </div>
-
         ))
     }
 
+
+
     //渲染最新帖子
     renderNewTZ() {
+        // return this.state.newtz.map(item => (
+        //     <div key={item.id} style={{ marginTop: '10px' }}>
+        //         <div className='TZ-body'>
+        //             <div className='test-m' onClick={() => this.turnArticle(item)}>
+        //                 <div style={{ marginBottom: '10px', display: 'flex' }}>
+        //                     <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
+        //                     <div >
+        //                         <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
+        //                         <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
+        //                     </div>
+        //                 </div>
+        //                 <div>{item.content}</div>
+        //                 <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
+        //                     {item.img_list.map(item => (
+        //                         <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path}></img>
+        //                     ))}
+        //                 </div>
+        //             </div>
+
+        //             <div className='footen'>
+        //                 <div className='discuss'>
+        //                     <span><img src={dicuss} alt="discuss" /></span>
+        //                     <span className="nums">{item.comments}</span>
+        //                 </div>
+        //                 {
+        //                     item.is_likes == 1 ?
+        //                         (
+        //                             <div className={'like-' + item.id} id={'like-' + item.id} >
+        //                                 <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
+        //                                 <span className="nums">{item.likes}</span>
+        //                             </div>
+        //                         ) :
+        //                         (
+        //                             <div className={'dislike-' + item.id} id={'like-' + item.id} >
+        //                                 <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
+        //                                 <span className="nums">{item.likes}</span>
+        //                             </div>
+        //                         )
+        //                 }
+        //             </div>
+        //         </div>
+        //         <WhiteSpace />
+        //     </div>
+        // ))
         return this.state.newtz.map(item => (
             <div key={item.id} style={{ marginTop: '10px' }}>
                 <div className='TZ-body'>
@@ -262,7 +356,7 @@ export default class Circle extends React.Component {
                                 <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
                             </div>
                         </div>
-                        <div>{item.content}</div>
+                        <div className='TZ-content'>{item.content} 查看全文 </div>
                         {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
                         <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
                             {item.img_list.map(item => (
@@ -270,21 +364,30 @@ export default class Circle extends React.Component {
                             ))}
                         </div>
                     </div>
-
                     <div className='footen'>
                         <div className='discuss'>
                             <span><img src={dicuss} alt="discuss" /></span>
                             <span className="nums">{item.comments}</span>
                         </div>
-                        <div className='like' >
-                            <span><img src={like} id='like-thumb' alt="like" onClick={() => this.likeArticle(item.id)} /></span>
-                            <span className="nums">{item.likes}</span>
-                        </div>
+                        {
+                            item.is_likes == 1 ?
+                                (
+                                    <div className={'like-' + item.id} id={'like-' + item.id} >
+                                        <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
+                                        <span className="nums">{item.likes}</span>
+                                    </div>
+                                ) :
+                                (
+                                    <div className={'dislike-' + item.id} id={'like-' + item.id} >
+                                        <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
+                                        <span className="nums">{item.likes}</span>
+                                    </div>
+                                )
+                        }
                     </div>
                 </div>
                 <WhiteSpace />
             </div>
-
         ))
     }
 

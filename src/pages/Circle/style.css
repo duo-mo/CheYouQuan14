@@ -157,16 +157,45 @@ font-weight: 500;
     padding-bottom: 33px;
   }
 
+  .TZ-body .TZ-content{
+    text-align: justify;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+  }
+
   .footen .discuss{
     position: absolute;
     bottom: 8px;
     right: 25%;
   }
-  .footen .like{
+  .footen [class|=like]{
     position: absolute;
     bottom: 8px;
     right: 5%;
   }
+  .footen [class|=dislike] span:first-child {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+    background-image: url(../../assets/img/ugc_icon_like_normal_24.svg);
+    background-repeat: no-repeat;
+  }
+  .footen [class|=dislike]{
+    position: absolute;
+    bottom: 8px;
+    right: 5%;
+  }
+  .footen [class|=like] span:first-child {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+    background-image: url(../../assets/img/ugc_icon_like_selected_24.svg);
+    background-repeat: no-repeat;
+  }
+
   .hot-TZ {
       margin-bottom: 20px;
       margin-top: 10px ;

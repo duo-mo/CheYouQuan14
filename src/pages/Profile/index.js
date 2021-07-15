@@ -47,7 +47,7 @@ export default class Profile extends React.Component {
               authorzation: getToken()
             }
           })
-          console.log(res)
+          console.log('getUserInfo', res)
 
           //移除本地token
           removeToken()
@@ -75,7 +75,7 @@ export default class Profile extends React.Component {
         authorzation: getToken()
       }
     })
-
+    localStorage.setItem('my_id', JSON.stringify(res.data.body.id))
     console.log('个人信息页面请求获取', res)
     if (res.data.status === 200) {
       const { avatar, nickname, resume } = res.data.body
