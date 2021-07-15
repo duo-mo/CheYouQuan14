@@ -71,7 +71,8 @@ export default class Circle extends React.Component {
             selectedTab: this.props.location.pathname,
             tiezi: [],
             circle_info: [],
-            newtz: []
+            newtz: [],
+            isLogged: true
         }
     }
     del_0 = () => {
@@ -169,19 +170,27 @@ export default class Circle extends React.Component {
     }
 
     //点赞/取消点赞
-    async likeArticle(article_id) {
+    async likeArticle(article_id, article_likes) {
+        console.log('当前article_id为', article_id);
         const res = await API.post(
             '/community/like_article',
             { article_id: article_id },
             { headers: { authorzation: getToken() } }
         )
-        console.log("点赞数据为：", res.data);
-        // this.setState({
-        //     circle_info: res.data.body
-        // })
-        // console.log("数据为：", this.state.circle_info);
-        this.setState({ newTZ: [] })
-        this.getNewTZ()
+        console.log("点赞数据为：", res.data.body);
+        const id = 'like-' + article_id
+        // console.log(document.getElementById(id));
+        // console.log(res.data.body.iscancelstar);
+        if (res.data.body.iscancelstar == true) {
+            document.getElementById(id).className = 'dislike-' + article_id
+            article_likes--
+        } else {
+            document.getElementById(id).className = 'like-' + article_id
+            article_likes++
+        }
+        // this.setState({ newTZ: [], tiezi: [] })
+        // this.getTiezi()
+        // this.getNewTZ()
     }
 
     //渲染车圈简介
@@ -211,34 +220,51 @@ export default class Circle extends React.Component {
     }
 
 
-
+    async returnClass(article_id) {
+        const res = await API.post(
+            '/community/like_article',
+            { article_id: article_id },
+            { headers: { authorzation: getToken() } }
+        )
+        const id = 'like-' + article_id
+        if (res.data.body.iscancelstar == true) {
+            document.getElementById(id).className = 'dislike-' + article_id
+        } else {
+            document.getElementById(id).className = 'like-' + article_id
+        }
+    }
 
     //渲染热门帖子
     renderTiezi() {
+
         return this.state.tiezi.map(item => (
-            <div key={item.id} onClick={() => this.turnArticle(item)} style={{ marginTop: '10px' }}>
+            <div key={item.id} style={{ marginTop: '10px' }}>
                 <div className='TZ-body'>
-                    <div style={{ marginBottom: '10px', display: 'flex' }}>
-                        <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
-                        <div >
-                            <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
-                            <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
+                    <div className='test-m' onClick={() => this.turnArticle(item)}>
+                        <div style={{ marginBottom: '10px', display: 'flex' }}>
+                            <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
+                            <div >
+                                <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
+                                <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
+                            </div>
+                        </div>
+                        <div>{item.content}</div>
+                        {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
+                        <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
+                            {item.img_list.map(item => (
+                                <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path}></img>
+                            ))}
                         </div>
                     </div>
-                    <div>{item.content}</div>
-                    {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
-                    <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
-                        {item.img_list.map(item => (
-                            <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path}></img>
-                        ))}
-                    </div>
+
                     <div className='footen'>
                         <div className='discuss'>
                             <span><img src={dicuss} alt="discuss" /></span>
                             <span className="nums">{item.comments}</span>
                         </div>
-                        <div className='like'>
-                            <span><img src={like} alt="like" /></span>
+                        {/* className={'dislike-' + item.id}  */}
+                        <div className={'dislike-' + item.id} id={'like-' + item.id} >
+                            <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
                             <span className="nums">{item.likes}</span>
                         </div>
                     </div>
@@ -276,8 +302,8 @@ export default class Circle extends React.Component {
                             <span><img src={dicuss} alt="discuss" /></span>
                             <span className="nums">{item.comments}</span>
                         </div>
-                        <div className='like' >
-                            <span><img src={like} id='like-thumb' alt="like" onClick={() => this.likeArticle(item.id)} /></span>
+                        <div className={'dislike-' + item.id} id={'like-' + item.id} >
+                            <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
                             <span className="nums">{item.likes}</span>
                         </div>
                     </div>

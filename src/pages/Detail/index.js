@@ -71,15 +71,12 @@ export default class Detail extends React.Component {
         // window.location.reload()
         const pid_last = JSON.parse(window.localStorage.getItem('pid_last'))
         const pid = JSON.parse(window.localStorage.getItem('pid'))
-        if (pid_last == 0) {
+        if (pid_last == 0 || document.getElementById(pid_last) == null) {
             document.getElementById(JSON.parse(window.localStorage.getItem('pid'))).className = 'replyComment-display'
         } else {
             document.getElementById(pid_last).className = 'replyComment-undisplay'
             document.getElementById(pid).className = 'replyComment-display'
         }
-
-
-
     }
 
     //发布评论
