@@ -36,7 +36,7 @@ class MyComment extends React.Component{
             { text: '删除', onPress: async () => {
                 //调用接口
                 const res = await API.post('/community/del_comments',
-                {article_id:id,
+                {comment_id:id,
                 type:'commrnts'
                 },{
                     headers:{
