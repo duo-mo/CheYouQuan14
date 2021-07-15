@@ -1,6 +1,6 @@
 import React from 'react'
 import NavHeader from '../../components/NavHeader'
-import { Modal,List } from 'antd-mobile'
+import { Modal } from 'antd-mobile'
 import styles from './index.module.scss'
 import { API } from '../../utils/api'
 import { getToken } from '../../utils/auth'
@@ -48,7 +48,7 @@ class MyNews extends React.Component{
                 console.log()
                 console.log(res.data.body)
                 console.log(res.data.body.status)
-            if(res.data.status==200){
+            if(res.data.status===200){
                 this.getNews()
                 
             }
