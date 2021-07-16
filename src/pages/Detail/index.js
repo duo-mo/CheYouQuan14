@@ -1,4 +1,5 @@
 import React from 'react'
+// import { FlatList } from 'react-native'
 import { WingBlank, TabBar, NavBar, Icon, Tabs, WhiteSpace, Grid, List, TextareaItem } from 'antd-mobile'
 import { createForm } from 'rc-form';
 import { API } from "../../utils/api.js"
@@ -69,10 +70,14 @@ export default class Detail extends React.Component {
       subcomments: res0.data
     })
     // window.location.reload()
-    document.getElementById(JSON.parse(window.localStorage.getItem('pid_last'))).className = 'replyComment-undisplay'
-    document.getElementById(JSON.parse(window.localStorage.getItem('pid'))).className = 'replyComment-display'
-
-
+    const pid_last = JSON.parse(window.localStorage.getItem('pid_last'))
+    const pid = JSON.parse(window.localStorage.getItem('pid'))
+    if (pid_last == 0 || document.getElementById(pid_last) == null) {
+      document.getElementById(JSON.parse(window.localStorage.getItem('pid'))).className = 'replyComment-display'
+    } else {
+      document.getElementById(pid_last).className = 'replyComment-undisplay'
+      document.getElementById(pid).className = 'replyComment-display'
+    }
   }
 
   //发布评论
@@ -98,6 +103,11 @@ export default class Detail extends React.Component {
     this.getComments()
   }
 
+  //滚动条触底事件
+  onEndReached = () => {
+    console.log("onEndReached");
+  }
+
   //渲染帖子
   renderArticle() {
     return this.state.tzxq.map(item => (
@@ -117,6 +127,30 @@ export default class Detail extends React.Component {
         </div>
       </div>
     ))
+    // const { tzxq } = this.state;
+    // return (
+    //     <FlatList
+    //         onEndReached={this.onEndReached}
+    //         onEndReachedThreshold={0.1}
+    //         data={tzxq}
+    //         keyExtractor={v => v.id + ""}
+    //         renderItem={({ item }) => <div key={item.id}>
+    //             <div style={{ marginBottom: '10px', display: 'flex' }}>
+    //                 <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
+    //                 <div >
+    //                     <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
+    //                     <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
+    //                 </div>
+    //             </div>
+    //             <div>{item.content}</div>
+    //             <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
+    //                 {item.img_list.map(item => (
+    //                     <img style={{ width: '170px', height: '170px', paddingRight: '3px', paddingBottom: '3px' }} src={item.img_path}></img>
+    //                 ))}
+    //             </div>
+    //         </div>}
+    //     />
+    // )
   }
   //渲染暂无评论模块
   rendernoComment() {
@@ -184,16 +218,14 @@ export default class Detail extends React.Component {
             <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.user.user_name}</div>
             <div style={{ marginTop: '5px' }}>{item.content}</div>
             <div style={{ height: '5px', fontSize: '5px', color: '#999' }}> {time(item.create_time)} </div>
-            <div className='reply-btn' onClick={() => this.replyComment(item.id, item.user.user_name)}>回复</div>
             <div className='look-reply-btn' onClick={() => this.storagePid(item.id)}>查看回复</div>
-            {/* <div> {() => this.storagePid(item.id)} </div> */}
+            <div className='reply-btn' onClick={() => this.replyComment(item.id, item.user.user_name)}>回复</div>
           </div>
         </div>
         <div id={item.id} className='replyComment-undisplay'>
           {this.state.subcomments.map(item => (
             <div>
-              <div> {item.user.user_name} </div>
-              <div> {item.content} </div>
+              <span> {item.user.user_name} </span>: <span>{item.content}</span>
             </div>
           ))}
         </div>

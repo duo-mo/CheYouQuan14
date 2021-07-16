@@ -29,6 +29,7 @@ export default class btn extends React.Component {
   //图片选择器
   state = {
     // files: data,
+    xuanbtn: '选择车圈  >',
     content: '',
     community_id: 0,
     status: 1,
@@ -37,6 +38,25 @@ export default class btn extends React.Component {
     previewImage: '',
     previewTitle: '',
     fileList: [],
+  }
+
+  componentDidMount() {
+    this.Ifnull()
+    this.Ifxuan()
+  }
+  //判断空值渲染草稿
+  Ifnull() {
+    // console.log(123);
+    if (localStorage.getItem("caogaoContent") != null) {
+      const caogaotext = JSON.parse(window.localStorage.getItem('caogaoContent')).content
+      const caogaoquanId = JSON.parse(window.localStorage.getItem('caogaoContent')).quanId
+      // console.log(caogaotext);
+      // console.log(caogaoquanId);
+      this.setState({
+        content: caogaotext,
+        community_id: caogaoquanId
+      })
+    }
   }
   handleCancel = () => this.setState({ previewVisible: false });
   handlePreview = async file => {
@@ -69,27 +89,35 @@ export default class btn extends React.Component {
   //提交数据
   submit = async () => {
     let { img_list, fileList, community_id, content, status } = this.state;
-    fileList.map(item => {
-      img_list.push(item.response.body)
-    })
-    // content = value.target.value
-    community_id = this.props.location.params.id
-    // console.log(img_list);
-    // console.log(content);
-    // console.log(community_id);
-    //post
-    const res = await API.post('/community/article/upload_article', { content, community_id, status, img_list }, {
-      headers: {
-        //表示登录的token发给服务器的
-        authorzation: getToken()
+    //判断内容是否为空和是否选择车友圈
+    if (content != '' || community_id != 0) {
+      fileList.map(item => {
+        img_list.push(item.response.body)
+      })
+      // content = value.target.value
+      community_id = JSON.parse(window.localStorage.getItem('xuanquan')).qid
+      // console.log(img_list);
+      // console.log(content);
+      console.log(community_id);
+      //post
+      const res = await API.post('/community/article/upload_article', { content, community_id, status, img_list }, {
+        headers: {
+          //表示登录的token发给服务器的
+          authorzation: getToken()
+        }
+      })
+      if (res.data.status === 200) {
+        Toast.info('发布成功', 1, null, false)
+        this.props.history.push('/user/my_news')
       }
-    })
+    } else {
+      Toast.info('请确认是否选择车圈和输入内容不能为空', 2, null, true)
+
+    }
+
     // console.log(res);
     // console.log(content);
-    if (res.data.status === 200) {
-      Toast.info('发布成功', 1, null, false)
-      this.props.history.push('/user/my_news')
-    }
+
   }
   //弹出
   Back() {
@@ -99,33 +127,30 @@ export default class btn extends React.Component {
   SaveInfo() {
     let { content } = this.state
     let quanId = this.props.location.params.id
-    // Toast.info('存入成功', 1.5, null, true)
+    Toast.info('存入成功', 1.5, null, true)
     // console.log(content);//内容success
     // console.log(this.props.location.params.id);//车圈idsuccess
     localStorage.setItem('caogaoContent', JSON.stringify({
       content, quanId
     }))
-  }
-  //判断空值渲染草稿
-  Ifnull() {
-    // console.log(123);
-    if (localStorage.getItem("caogaoContent") != null) {
-      const caogaotext = JSON.parse(window.localStorage.getItem('caogaoContent')).content
-      const caogaoquanId = JSON.parse(window.localStorage.getItem('caogaoContent')).quanId
-      console.log(caogaotext);
-      console.log(caogaoquanId);
-      this.setState({
-        content: caogaotext,
-        community_id: caogaoquanId
-      })
-    }
+
   }
   //前往选车友圈页面
   goChoose() {
     this.props.history.push('/publish/choosec')
   }
+  //车友圈反馈
+  Ifxuan() {
+    const { community_id } = this.state
+    if (JSON.parse(window.localStorage.getItem('xuanquan')).qid != 0) {
+      // console.log(123);
+      this.setState({
+        xuanbtn: JSON.parse(window.localStorage.getItem('xuanquan')).qname
+      })
+    }
+  }
   render() {
-    const { content } = this.state;
+    const { content, xuanbtn } = this.state;
     const { previewVisible, previewImage, fileList, previewTitle } = this.state;
     const uploadButton = (
       <div>
@@ -188,11 +213,11 @@ export default class btn extends React.Component {
         <div style={{ clear: 'both' }}></div>
         <div className='footer'>
           <div className='ChooseC' onClick={() => { this.goChoose() }}>
-            选择车圈 &gt;
+            {xuanbtn}
           </div>
-          <div className='saveInfo' onClick={() => this.SaveInfo()}>
+          <button className='saveInfo' onClick={() => this.SaveInfo()}>
             存入草稿箱
-          </div>
+          </button>
           <button className="subbtn" type='submit' onClick={this.submit}>提交</button>
         </div>
       </div>

@@ -44,14 +44,22 @@ export default class ChooseC extends React.Component {
     // console.log('222' + res.data.body);
   }
   //返回编辑页面并传圈子id值
-  handleClick(name, val) {
-    console.log(name, val.target.id);
-    this.props.history.push({
-      pathname: '/publish',
-      params: {
-        id: val.target.id
-      }
-    })
+  handleClick(item) {
+    // console.log(e.target);
+    // const nnn = e.target.name
+    // console.log(e.target);
+    // this.props.history.push({
+    //   pathname: '/publish',
+    //   params: {
+    //     id: e.target.id,
+    //   }
+    // })
+    // console.log(item.id);
+    const qid = item.id
+    const qname = item.name
+    // console.log(qid + qname);
+    localStorage.setItem('xuanquan', JSON.stringify({ qid, qname }))
+    this.props.history.push('/publish')
   }
 
 
@@ -62,10 +70,10 @@ export default class ChooseC extends React.Component {
       // console.log('111', item);
       return (
         <li>
-          <div className='CqItem' onClick={(e) => this.handleClick('value', e)}>
+          <div className='CqItem' onClick={() => this.handleClick(item)}>
             <span><img className='pic' src={item.img_path} alt='图裂了'></img></span>
             <span className='scrib'>
-              <div className='title' id={item.id}>{item.name}</div>
+              <div className='title'>{item.name}</div>
               <div className='subtitle'>{item.all_num}人加入  {item.community_content_num}条内容</div>
             </span>
           </div>
