@@ -95,7 +95,7 @@ export default class Index extends React.Component {
         limit: 3
       }
     })
-    console.log(res2)
+    console.log( 'res2',res2)
     this.setState({
       home_list: res2.data.body
     })
@@ -118,15 +118,15 @@ export default class Index extends React.Component {
   //热门车友圈详情
   QuanDetails(item) {
     const community_id = item.id;
-    console.log(community_id);
+    console.log('test',community_id);
     localStorage.setItem('community_id', JSON.stringify({ community_id }))
     this.props.history.push('/Circle')
   }
   //动态详情
   ListDetails(item) {
-    const list_id = item.id;
-    // console.log(list_id);
-    localStorage.setItem('list_id', JSON.stringify({ list_id }))
+    const article_id = item.id;
+    console.log(article_id);
+    localStorage.setItem('article_id', JSON.stringify({ article_id }))
     this.props.history.push('/Detail')
   }
   //加入圈子函数
@@ -189,7 +189,7 @@ export default class Index extends React.Component {
     let renderhome_list = this.state.home_list.map(item => {
       let times = time(item.create_time)
       return (
-        <div className='trend'>
+        <div className='trend' key={item}>
           <div className='user'>
             <div className='user_pro'>
               <img src={item.author_info.user_photo} alt='user-pro'></img>

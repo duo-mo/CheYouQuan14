@@ -24,6 +24,18 @@ html,body{
       letter-spacing: 0;
       font-weight: 700;
     }
+    .saveInfo{
+      position: absolute;
+      margin-top: 0;
+      right: 115px;
+      width: 100px;
+      height: 24px;
+      line-height: 24px;
+      background: #FFE100;
+      border-radius: 14px;
+      color: #333333;
+      font-size: 14px;
+    }
     .subbtn{
       position: absolute;
       right: 18px;
