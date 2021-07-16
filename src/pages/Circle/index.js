@@ -1,31 +1,29 @@
 import React from 'react'
-import { FlatList } from 'react-native'
+// import { FlatList } from 'react-native'
 // 1.导入路由
-import { Route, Link } from 'react-router-dom'
+// import { Route, Link } from 'react-router-dom'
 //2.导入组件
-import Index from '../Index'
-import Profile from '../Profile'
-import axios from 'axios'
+// import Index from '../Index'
+// import Profile from '../Profile'
+// import axios from 'axios'
 //鉴权组件
 // import AuthRoute from '../../components/AuthRoute'
 //导入tabbar
-import { WingBlank, TabBar, NavBar, Icon, Tabs, WhiteSpace, ListView } from 'antd-mobile';
+import {message} from 'antd'
+import { WingBlank, TabBar, NavBar, Icon, WhiteSpace} from 'antd-mobile';
 // import { StickyContainer, Sticky } from 'react-sticky';
 import './style.css'
-import icon_cyq0 from "../../assets/img/cyq0.png"
-import icon_cyq01 from "../../assets/img/cyq1.png"
-import icon_profile0 from "../../assets/img/my0.png"
-import icon_profile1 from "../../assets/img/my1.png"
+
 import { API } from "../../utils/api.js"
 import tuwen from '../../assets/img/ugc_icon_发图文.png'
 import tiwen from '../../assets/img/03-发布.png'
-import like from '../../assets/img/ugc_icon_like_normal_24.svg'
-import liked from '../../assets/img/ugc_icon_like_selected_24.svg'
+// import like from '../../assets/img/ugc_icon_like_normal_24.svg'
+// import liked from '../../assets/img/ugc_icon_like_selected_24.svg'
 import dicuss from '../../assets/img/评论.svg'
 import more from '../../assets/img/更多.png'
-import Detail from '../Detail'
+// import Detail from '../Detail'
 import time from '../../utils/time';
-import AuthRoute from '../../components/AuthRoute'
+// import AuthRoute from '../../components/AuthRoute'
 import { getToken } from '../../utils/auth'
 const myImg = src => <img src={src} className="am-icon-mm" alt="" />;
 
@@ -41,13 +39,13 @@ const tabItems = [{
 }]
 
 //判断图片个数
-function returnPicNum(imgarray) {
-    const m = imgarray.length;
-    const data1 = Array.from(new Array(m)).map(() => ({
-        icon: 'https://gw.alipayobjects.com/zos/rmsportal/WXoqXTHrSnRcUwEaQgXJ.png',
-    }));
-    return data1
-}
+// function returnPicNum(imgarray) {
+//     const m = imgarray.length;
+//     const data1 = Array.from(new Array(m)).map(() => ({
+//         icon: 'https://gw.alipayobjects.com/zos/rmsportal/WXoqXTHrSnRcUwEaQgXJ.png',
+//     }));
+//     return data1
+// }
 
 
 export default class Circle extends React.Component {
@@ -71,7 +69,7 @@ export default class Circle extends React.Component {
                 display_none: 'none'
             })
         }
-        if (document.getElementById('m-tab-0').className == 'selectedTab') {
+        if (document.getElementById('m-tab-0').className === 'selectedTab') {
             console.log('这个被选中的tab已经被选中了');
         } else {
             document.getElementById('m-tab-0').className = 'selectedTab';
@@ -85,7 +83,7 @@ export default class Circle extends React.Component {
                 display_none: 'block'
             })
         }
-        if (document.getElementById('m-tab-1').className == 'selectedTab') {
+        if (document.getElementById('m-tab-1').className === 'selectedTab') {
             console.log('这个被选中的tab已经被选中了');
         } else {
             document.getElementById('m-tab-1').className = 'selectedTab';
@@ -146,7 +144,7 @@ export default class Circle extends React.Component {
 
     //获取自己的id
     async getMyID() {
-        const res = await API.get(
+        await API.get(
             '/user', {
             params: {
                 community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id
@@ -178,9 +176,9 @@ export default class Circle extends React.Component {
             '/community/like_article',
             { article_id: article_id },
             { headers: { authorzation: getToken() } }
-        )
+        )        
         console.log("点赞数据为：", res.data.body);
-        const id = 'like-' + article_id
+        // const id = 'like-' + article_id
         // console.log(document.getElementById(id));
         // console.log(res.data.body.iscancelstar);
         // if (res.data.body.iscancelstar == true) {
@@ -227,7 +225,7 @@ export default class Circle extends React.Component {
                 </div>
                 {/* onClick={this.joinCircle()} */}
                 <button id='joinButton' >加入</button>
-                <img id='beijing' src={item.img_path}></img>
+                <img id='beijing' src={item.img_path} alt="加入"></img>
             </div>
         ))
     }
@@ -240,7 +238,7 @@ export default class Circle extends React.Component {
             { headers: { authorzation: getToken() } }
         )
         const id = 'like-' + article_id
-        if (res.data.body.iscancelstar == false) {
+        if (res.data.body.iscancelstar === false) {
             document.getElementById(id).className = 'dislike-' + article_id
         } else {
             document.getElementById(id).className = 'like-' + article_id
@@ -256,7 +254,7 @@ export default class Circle extends React.Component {
                 <div className='TZ-body'>
                     <div className='test-m' onClick={() => this.turnArticle(item)}>
                         <div style={{ marginBottom: '10px', display: 'flex' }}>
-                            <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
+                            <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo} alt="用户头像"></img>
                             <div >
                                 <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
                                 <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
@@ -266,7 +264,7 @@ export default class Circle extends React.Component {
                         {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
                         <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
                             {item.img_list.map(item => (
-                                <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path}></img>
+                                <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path} alt="图片列表"></img>
                             ))}
                         </div>
                     </div>
@@ -276,7 +274,7 @@ export default class Circle extends React.Component {
                             <span className="nums">{item.comments}</span>
                         </div>
                         {
-                            item.is_likes == 1 ?
+                            item.is_likes === 1 ?
                                 (
                                     <div className={'like-' + item.id} id={'like-' + item.id} >
                                         <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
@@ -350,7 +348,7 @@ export default class Circle extends React.Component {
                 <div className='TZ-body'>
                     <div className='test-m' onClick={() => this.turnArticle(item)}>
                         <div style={{ marginBottom: '10px', display: 'flex' }}>
-                            <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
+                            <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo} alt="头像"></img>
                             <div >
                                 <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
                                 <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
@@ -360,7 +358,7 @@ export default class Circle extends React.Component {
                         {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
                         <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
                             {item.img_list.map(item => (
-                                <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path}></img>
+                                <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path} alt="tupian"></img>
                             ))}
                         </div>
                     </div>
@@ -370,7 +368,7 @@ export default class Circle extends React.Component {
                             <span className="nums">{item.comments}</span>
                         </div>
                         {
-                            item.is_likes == 1 ?
+                            item.is_likes === 1 ?
                                 (
                                     <div className={'like-' + item.id} id={'like-' + item.id} >
                                         <span onClick={() => this.likeArticle(item.id, item.likes)}></span>

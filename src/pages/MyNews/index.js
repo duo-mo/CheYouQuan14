@@ -106,9 +106,12 @@ class MyNews extends React.Component{
                                 <img src={DeletePng} alt="删除" onClick={() => this.del_news(item)}/>
                             </div>
                         </div>
+                        {item.img_list.length>0?(
                         <div className={styles.content_img} >
-                            <img src={avatar} alt="内容图片" />
+                            <img src={item.img_list[0].img_path} alt="内容图片" />
                         </div>
+                        ):(<></>) }
+                        
                         
                         </div>
                         

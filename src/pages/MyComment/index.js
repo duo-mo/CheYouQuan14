@@ -74,7 +74,7 @@ class MyComment extends React.Component{
     }
 
     render(){
-        const {isContent,userInfo:{nickname,avatar}} = this.state
+        const {isContent,userInfo:{}} = this.state
         let newsItem = this.state.info.map((item,key)=>{
             return (
                 <li key={key}>

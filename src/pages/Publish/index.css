@@ -1,0 +1,61 @@
+html, body {
+  position: relative;
+  background-color: #fff;
+}
+
+html .footer, body .footer {
+  position: absolute;
+  height: 50px;
+  width: 100%;
+  margin-top: 150px;
+  color: red;
+}
+
+html .footer .ChooseC, body .footer .ChooseC {
+  position: absolute;
+  left: 5px;
+  width: 98px;
+  height: 24px;
+  line-height: 24px;
+  color: #333333;
+  background: #FFE100;
+  font-family: PingFang-SC-Bold;
+  font-size: 14px;
+  color: #333333;
+  letter-spacing: 0;
+  border-radius: 14px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+html .footer .saveInfo, body .footer .saveInfo {
+  position: absolute;
+  margin-top: 0;
+  right: 100px;
+  width: 100px;
+  height: 24px;
+  line-height: 24px;
+  background: #FFE100;
+  border-radius: 14px;
+  color: #333333;
+  font-size: 14px;
+}
+
+html .footer .subbtn, body .footer .subbtn {
+  position: absolute;
+  right: 18px;
+  bottom: 25px;
+  width: 64px;
+  height: 24px;
+  background: #FFE100;
+  border-radius: 14px;
+  line-height: 24px;
+  font-size: 14px;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 14px;
+  font-weight: 500;
+}

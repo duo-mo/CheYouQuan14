@@ -192,11 +192,33 @@ html,body{
         top: 6px;
         right: 25%;
       }
-      .like{
-        position: absolute;
-        top: 6px;
-        right: 5%;
-      }
+       [class|=like]{
+    position: absolute;
+    bottom: -36px;
+    right: 5%;
+  }
+   [class|=dislike] span:first-child {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+    background-image: url(../../assets/img/ugc_icon_like_normal_24.svg);
+    background-repeat: no-repeat;
+  }
+   [class|=dislike]{
+    position: absolute;
+    bottom: -36px;
+    right: 5%;
+  }
+   [class|=like] span:first-child {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+    background-image: url(../../assets/img/ugc_icon_like_selected_24.svg);
+    background-repeat: no-repeat;
+  }
+  .nums{
+    vertical-align: middle;
+  }
     }
   }
 }

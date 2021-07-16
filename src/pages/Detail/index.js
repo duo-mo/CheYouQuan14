@@ -1,7 +1,7 @@
 import React from 'react'
-import { FlatList } from 'react-native'
-import { WingBlank, TabBar, NavBar, Icon, Tabs, WhiteSpace, Grid, List, TextareaItem } from 'antd-mobile'
-import { createForm } from 'rc-form';
+// import { FlatList } from 'react-native'
+import { WingBlank,  NavBar, Icon, WhiteSpace,  TextareaItem } from 'antd-mobile'
+// import { createForm } from 'rc-form';
 import { API } from "../../utils/api.js"
 import { getToken } from '../../utils/auth'
 import time from '../../utils/time';
@@ -9,9 +9,9 @@ import NoContnet from '../../assets/img/empty_pic.png'
 import styles from '../MyComment/index.module.css'
 import './index.css'
 
-const data1 = Array.from(new Array(9)).map(() => ({
-    icon: 'https://gw.alipayobjects.com/zos/rmsportal/WXoqXTHrSnRcUwEaQgXJ.png',
-}));
+// const data1 = Array.from(new Array(9)).map(() => ({
+//     icon: 'https://gw.alipayobjects.com/zos/rmsportal/WXoqXTHrSnRcUwEaQgXJ.png',
+// }));
 
 localStorage.setItem('pid_last', JSON.stringify(0))
 
@@ -72,7 +72,7 @@ export default class Detail extends React.Component {
         // window.location.reload()
         const pid_last = JSON.parse(window.localStorage.getItem('pid_last'))
         const pid = JSON.parse(window.localStorage.getItem('pid'))
-        if (pid_last == 0 || document.getElementById(pid_last) == null) {
+        if (pid_last === 0 || document.getElementById(pid_last) == null) {
             document.getElementById(JSON.parse(window.localStorage.getItem('pid'))).className = 'replyComment-display'
         } else {
             document.getElementById(pid_last).className = 'replyComment-undisplay'
@@ -88,7 +88,7 @@ export default class Detail extends React.Component {
 
         // console.log('article_id类型：', typeof (JSON.parse(window.localStorage.getItem('article_id')).id));
         // console.log('content类型：', typeof (cont));
-        const res = await API.post(
+        await API.post(
             '/community/article/comment',
             { article_id: JSON.parse(window.localStorage.getItem('article_id')).id, pid: JSON.parse(window.localStorage.getItem('this_pid')), content: cont },
             { headers: { authorzation: getToken() } }
@@ -113,7 +113,7 @@ export default class Detail extends React.Component {
         return this.state.tzxq.map(item => (
             <div key={item.id}>
                 <div style={{ marginBottom: '10px', display: 'flex' }}>
-                    <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
+                    <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo} alt="头像"></img>
                     <div >
                         <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
                         <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
@@ -122,7 +122,7 @@ export default class Detail extends React.Component {
                 <div>{item.content}</div>
                 <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
                     {item.img_list.map(item => (
-                        <img style={{ width: '170px', height: '170px', paddingRight: '3px', paddingBottom: '3px' }} src={item.img_path}></img>
+                        <img style={{ width: '170px', height: '170px', paddingRight: '3px', paddingBottom: '3px' }} src={item.img_path} alt="tupian"></img>
                     ))}
                 </div>
             </div>
@@ -155,7 +155,7 @@ export default class Detail extends React.Component {
     //渲染暂无评论模块
     rendernoComment() {
         return this.state.tzxq.map(item => (
-            item.comments == '0' ? <div className={styles.no_contnet_box}>
+            item.comments === '0' ? <div className={styles.no_contnet_box}>
                 <img src={NoContnet} alt='无内容' className={styles.content} />
                 <div style={{ paddingBottom: '35px' }}>暂无评论</div>
             </div> : <div className='noMore'>没有更多了</div>
@@ -213,7 +213,7 @@ export default class Detail extends React.Component {
         return this.state.comments.map(item => (
             <div key={item.id} className='comment-bar' style={{ marginTop: '10px', marginBottom: '30px' }} >
                 <div style={{ position: 'relative', marginTop: '10px', marginBottom: '10px', display: 'flex' }}>
-                    <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.user.user_photo}></img>
+                    <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.user.user_photo} alt="头像"></img>
                     <div>
                         <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.user.user_name}</div>
                         <div style={{ marginTop: '5px' }}>{item.content}</div>
@@ -235,7 +235,7 @@ export default class Detail extends React.Component {
 
     handleSubmit = () => {
         console.log(this.state.text);
-        if (this.state.text == "") {
+        if (this.state.text === "") {
             console.log("请先输入内容");
         } else {
             this.postComments(this.state.text)
@@ -250,7 +250,7 @@ export default class Detail extends React.Component {
     }
     //回车发布评论（有误）
     enterGo(e) {
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             console.log('enter');
             this.handleSubmit()
         }
