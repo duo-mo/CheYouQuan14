@@ -10,7 +10,7 @@ import Login from './pages/Login'
 import MyNews from './pages/MyNews'
 import MyComment from './pages/MyComment'
 import Publish from './pages/Publish'
-import Tiwen from './pages/Tiwen'
+import Tiwen from './pages/Tiwen/index'
 import ChooseC from '../src/pages/Publish/ChooseC/index'
 import Circle from './pages/Circle'
 import Detail from './pages/Detail'
@@ -31,9 +31,9 @@ function App() {
         {/* 默认路由重定向 */}
         <Route exact path='/' render={() => <Redirect to='/home' />}></Route>
         <Route path="/login" component={Login}></Route>
-        <Route exact path="/publish" component={Publish}></Route>
-        <Route exact path="/tiwen" component={Tiwen}></Route>
-        <Route path="/publish/choosec" component={ChooseC}></Route>
+        <AuthRoute exact path="/publish" component={Publish}></AuthRoute>
+        <AuthRoute exact path="/tiwen" component={Tiwen}></AuthRoute>
+        <AuthRoute path="/publish/choosec" component={ChooseC}></AuthRoute>
 
 
         {/* 登录后才能访问的 */}

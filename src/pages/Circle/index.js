@@ -1,31 +1,31 @@
 import React from 'react'
 // import { FlatList } from 'react-native'
 // 1.导入路由
-import { Route, Link } from 'react-router-dom'
+// import { Route, Link } from 'react-router-dom'
 //2.导入组件
-import Index from '../Index'
-import Profile from '../Profile'
-import axios from 'axios'
+// import Index from '../Index'
+// import Profile from '../Profile'
+// import axios from 'axios'
 //鉴权组件
 // import AuthRoute from '../../components/AuthRoute'
 //导入tabbar
-import { WingBlank, TabBar, NavBar, Icon, Tabs, WhiteSpace, ListView } from 'antd-mobile';
+import { WingBlank, TabBar, NavBar, Icon, WhiteSpace } from 'antd-mobile';
 // import { StickyContainer, Sticky } from 'react-sticky';
 import './style.css'
-import icon_cyq0 from "../../assets/img/cyq0.png"
-import icon_cyq01 from "../../assets/img/cyq1.png"
-import icon_profile0 from "../../assets/img/my0.png"
-import icon_profile1 from "../../assets/img/my1.png"
+// import icon_cyq0 from "../../assets/img/cyq0.png"
+// import icon_cyq01 from "../../assets/img/cyq1.png"
+// import icon_profile0 from "../../assets/img/my0.png"
+// import icon_profile1 from "../../assets/img/my1.png"
 import { API } from "../../utils/api.js"
 import tuwen from '../../assets/img/ugc_icon_发图文.png'
 import tiwen from '../../assets/img/03-发布.png'
-import like from '../../assets/img/ugc_icon_like_normal_24.svg'
-import liked from '../../assets/img/ugc_icon_like_selected_24.svg'
+// import like from '../../assets/img/ugc_icon_like_normal_24.svg'
+// import liked from '../../assets/img/ugc_icon_like_selected_24.svg'
 import dicuss from '../../assets/img/评论.svg'
 import more from '../../assets/img/更多.png'
-import Detail from '../Detail'
+// import Detail from '../Detail'
 import time from '../../utils/time';
-import AuthRoute from '../../components/AuthRoute'
+// import AuthRoute from '../../components/AuthRoute'
 import { getToken } from '../../utils/auth'
 const myImg = src => <img src={src} className="am-icon-mm" alt="" />;
 
@@ -71,7 +71,7 @@ export default class Circle extends React.Component {
         display_none: 'none'
       })
     }
-    if (document.getElementById('m-tab-0').className == 'selectedTab') {
+    if (document.getElementById('m-tab-0').className === 'selectedTab') {
       console.log('这个被选中的tab已经被选中了');
     } else {
       document.getElementById('m-tab-0').className = 'selectedTab';
@@ -85,7 +85,7 @@ export default class Circle extends React.Component {
         display_none: 'block'
       })
     }
-    if (document.getElementById('m-tab-1').className == 'selectedTab') {
+    if (document.getElementById('m-tab-1').className === 'selectedTab') {
       console.log('这个被选中的tab已经被选中了');
     } else {
       document.getElementById('m-tab-1').className = 'selectedTab';
@@ -240,7 +240,7 @@ export default class Circle extends React.Component {
       { headers: { authorzation: getToken() } }
     )
     const id = 'like-' + article_id
-    if (res.data.body.iscancelstar == false) {
+    if (res.data.body.iscancelstar === false) {
       document.getElementById(id).className = 'dislike-' + article_id
     } else {
       document.getElementById(id).className = 'like-' + article_id
@@ -276,7 +276,7 @@ export default class Circle extends React.Component {
               <span className="nums">{item.comments}</span>
             </div>
             {
-              item.is_likes == 1 ?
+              item.is_likes === 1 ?
                 (
                   <div className={'like-' + item.id} id={'like-' + item.id} >
                     <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
@@ -370,7 +370,7 @@ export default class Circle extends React.Component {
               <span className="nums">{item.comments}</span>
             </div>
             {
-              item.is_likes == 1 ?
+              item.is_likes === 1 ?
                 (
                   <div className={'like-' + item.id} id={'like-' + item.id} >
                     <span onClick={() => this.likeArticle(item.id, item.likes)}></span>

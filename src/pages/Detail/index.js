@@ -1,7 +1,7 @@
 import React from 'react'
 // import { FlatList } from 'react-native'
-import { WingBlank, TabBar, NavBar, Icon, Tabs, WhiteSpace, Grid, List, TextareaItem } from 'antd-mobile'
-import { createForm } from 'rc-form';
+import { WingBlank, NavBar, Icon, WhiteSpace, TextareaItem } from 'antd-mobile'
+// import { createForm } from 'rc-form';
 import { API } from "../../utils/api.js"
 import { getToken } from '../../utils/auth'
 import time from '../../utils/time';
@@ -72,7 +72,7 @@ export default class Detail extends React.Component {
     // window.location.reload()
     const pid_last = JSON.parse(window.localStorage.getItem('pid_last'))
     const pid = JSON.parse(window.localStorage.getItem('pid'))
-    if (pid_last == 0 || document.getElementById(pid_last) == null) {
+    if (pid_last === 0 || document.getElementById(pid_last) === null) {
       document.getElementById(JSON.parse(window.localStorage.getItem('pid'))).className = 'replyComment-display'
     } else {
       document.getElementById(pid_last).className = 'replyComment-undisplay'
@@ -155,7 +155,7 @@ export default class Detail extends React.Component {
   //渲染暂无评论模块
   rendernoComment() {
     return this.state.tzxq.map(item => (
-      item.comments == '0' ? <div className={styles.no_contnet_box}>
+      item.comments === '0' ? <div className={styles.no_contnet_box}>
         <img src={NoContnet} alt='无内容' className={styles.content} />
         <div style={{ paddingBottom: '35px' }}>暂无评论</div>
       </div> : <div className='noMore'>没有更多了</div>
@@ -235,7 +235,7 @@ export default class Detail extends React.Component {
 
   handleSubmit = () => {
     console.log(this.state.text);
-    if (this.state.text == "") {
+    if (this.state.text === "") {
       console.log("请先输入内容");
     } else {
       this.postComments(this.state.text)
@@ -250,7 +250,7 @@ export default class Detail extends React.Component {
   }
   //回车发布评论（有误）
   enterGo(e) {
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
       console.log('enter');
       this.handleSubmit()
     }

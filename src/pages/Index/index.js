@@ -8,8 +8,8 @@ import NavHeader from '../../components/NavHeader'
 import { Popover, NavBar } from 'antd-mobile';
 import tuwen from '../../assets/img/ugc_icon_发图文.png'
 import tiwen from '../../assets/img/03-发布.png'
-import like from '../../assets/img/ugc_icon_like_normal_24.svg'
-import liked from '../../assets/img/ugc_icon_like_selected_24.svg'
+// import like from '../../assets/img/ugc_icon_like_normal_24.svg'
+// import liked from '../../assets/img/ugc_icon_like_selected_24.svg'
 import chequan from '../../assets/img/2-车友圈.png'
 import dicuss from '../../assets/img/评论.svg'
 // import picShow from '../../assets/img/defautle.png'
@@ -22,6 +22,7 @@ const myImg = src => <img src={src} className="am-icon am-icon-xs" alt="" />;
 
 export default class Index extends React.Component {
   state = {
+    id: 0,
     visible: false,
     selected: '',
     isLogin: isAuth(),
@@ -33,33 +34,36 @@ export default class Index extends React.Component {
       isLogin: 0,
 
     }],
-    home_list: [{
-      content: '',
-      likes: 0,
-      views: 0,
-      comments: 0,
-      status: '',
-      create_time: '',
-      img_list: [],
-      author_info: {
-        uuid: '',
-        user_name: '',
-        user_photo: '',
-        resume: ''
-      },
-    }]
+    home_list: []
+    //     {
+    //   content: '',
+    //     likes: 0,
+    //       views: 0,
+    //         comments: 0,
+    //           status: '',
+    //             create_time: '',
+    //               img_list: [],
+    //                 author_info: {
+    //     uuid: '',
+    //       user_name: '',
+    //         user_photo: '',
+    //           resume: '',
+    //             is_likes: 0
+    //   },
+    // }
 
   };
   componentDidMount() {
     this.getHotQuan();
     this.geCommunityHomeList();
+    this.renderhome_list()
   }
   //获取热门车友圈数据
   async getHotQuan() {
     if (!this.state.isLogin) {
       let res1 = await API.get('/community/get_community_hot', {
         params: {
-          page: 3,
+          page: 1,
           isLogin: 0
         },
         headers: {
@@ -92,10 +96,16 @@ export default class Index extends React.Component {
     const res2 = await API.get('/community/get_community_home_list', {
       params: {
         page: 1,
-        limit: 3
+        limit: 3,
+        user_id: JSON.parse(window.localStorage.getItem('my_id'))
       }
     })
-    console.log( 'res2',res2)
+    console.log('首页列表数据', res2)
+    //       if(res.data.body.is_likes=== 0){
+    //   is_likes:1
+    // }else {
+    //   ls_likes:0
+    //   }
     this.setState({
       home_list: res2.data.body
     })
@@ -118,15 +128,14 @@ export default class Index extends React.Component {
   //热门车友圈详情
   QuanDetails(item) {
     const community_id = item.id;
-    console.log('test',community_id);
+    console.log('test', community_id);
     localStorage.setItem('community_id', JSON.stringify({ community_id }))
     this.props.history.push('/Circle')
   }
   //动态详情
   ListDetails(item) {
-    const article_id = item.id;
-    console.log(article_id);
-    localStorage.setItem('article_id', JSON.stringify({ article_id }))
+    const id = item.id;
+    localStorage.setItem('article_id', JSON.stringify({ id }))
     this.props.history.push('/Detail')
   }
   //加入圈子函数
@@ -134,9 +143,61 @@ export default class Index extends React.Component {
     Toast.info('加入成功', 1, null, false)
 
   }
+
+  //点赞首页数据获取
+  // async zanCommunityHomeList() {
+  //   const { is_likes } = this.state
+  //   const res2 = await API.get('/community/get_community_home_list', {
+  //     params: {
+  //       page: 1,
+  //       limit: 3
+  //     }
+  //   })
+  //   res2.data.body.map(item => {
+  //     if (item.is_likes === 0) {
+  //       return item.is_likes === 1
+  //     } else {
+  //       return is_likes === 0
+  //     }
+  //   })
+  //   console.log('zan', res2)
+  //   this.setState({
+  //     home_list: res2.data.body
+  //   })
+  // }
   //点赞函数
-  dianzan() {
-    Toast.info('点赞成功', 1, null, false)
+  async likeArticle(article_id, article_likes) {
+    console.log('当前article_id为', article_id);
+    console.log(article_likes);
+    const res = await API.post(
+      '/community/like_article',
+      { article_id },
+      { headers: { authorzation: getToken() } }
+    )
+    console.log("点赞数据为：", res.data.body);
+    // const id = 'like-' + article_id
+    this.setState({
+      home_list: [],
+      //   if(is_likes=== 0){
+      //   is_likes:1
+      // }else {
+      //   ls_likes:0
+      //   }
+    })
+    this.geCommunityHomeList()
+
+
+
+    // console.log(document.getElementById(id));
+    // console.log(res.data.body.iscancelstar);
+    // if (res.data.body.iscancelstar == true) {
+    //     document.getElementById(id).className = 'dislike-' + article_id
+    // } else {
+    //     document.getElementById(id).className = 'like-' + article_id
+    // }
+    // this.setState({ newTZ: [], tiezi: [] })
+    // this.getTiezi()
+    // this.getNewTZ()
   }
   //关注函数
   async concern() {
@@ -151,6 +212,64 @@ export default class Index extends React.Component {
     console.log(res);
     Toast.info('关注成功', 1, null, false)
 
+  }
+  //渲染首页列表数据
+  renderhome_list() {
+    return (
+      this.state.home_list.map(item => {
+        let times = time(item.create_time)
+        return (
+          <div className='trend' key={item}>
+            <div className='user'>
+              <div className='user_pro'>
+                <img src={item.author_info.user_photo} alt='user-pro'></img>
+              </div>
+              <div className='user_name'>
+                <div className='user_id'>{item.author_info.user_name}</div>
+                <div className='user_time'>{times}</div>
+              </div>
+              <div className='concern' onClick={this.concern}>关注</div>
+            </div>
+            <div className='contents' onClick={() => this.ListDetails(item)} key={item}>
+              <div className='content'>{item.content}</div>
+              <div className='picshow'>
+                {item.img_list.map(item => {
+                  return (
+                    item.img_path.split(',').map(item => {
+                      return (
+                        <img src={item} alt='pic'></img>
+                      )
+                    })
+                  )
+                })}
+              </div>
+            </div>
+            <div className='footen'>
+              <div className='discuss'>
+                <span><img src={dicuss} alt="discuss" /></span>
+                <span className="nums">{item.comments}</span>
+              </div>
+              {
+                item.is_likes === 1 ?
+                  (
+                    <div className={'like-' + item.id} id={'like-' + item.id} >
+                      <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
+                      <span className="nums">{item.likes}</span>
+                    </div>
+                  ) :
+                  (
+                    <div className={'dislike-' + item.id} id={'like-' + item.id} >
+                      <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
+                      <span className="nums">{item.likes}</span>
+                    </div>
+                  )
+              }
+            </div>
+            <div>&nbsp;</div>
+          </div>
+        )
+      })
+    )
   }
 
   render() {
@@ -185,49 +304,60 @@ export default class Index extends React.Component {
         </div>
       )
     })
-    //渲染首页列表数据
-    let renderhome_list = this.state.home_list.map(item => {
-      let times = time(item.create_time)
-      return (
-        <div className='trend' key={item}>
-          <div className='user'>
-            <div className='user_pro'>
-              <img src={item.author_info.user_photo} alt='user-pro'></img>
-            </div>
-            <div className='user_name'>
-              <div className='user_id'>{item.author_info.user_name}</div>
-              <div className='user_time'>{times}</div>
-            </div>
-            <div className='concern' onClick={this.concern}>关注</div>
-          </div>
-          <div className='contents' onClick={() => this.ListDetails(item)} key={item}>
-            <div className='content'>{item.content}</div>
-            <div className='picshow'>
-              {item.img_list.map(item => {
-                return (
-                  item.img_path.split(',').map(item => {
-                    return (
-                      <img src={item} alt='pic'></img>
-                    )
-                  })
-                )
-              })}
-            </div>
-          </div>
-          <div className='footen'>
-            <div className='discuss'>
-              <span><img src={dicuss} alt="discuss" /></span>
-              <span className="nums">{item.comments}</span>
-            </div>
-            <div className='like' onClick={this.dianzan}>
-              <span><img src={like} alt="like" /></span>
-              <span className="nums">{item.likes}</span>
-            </div>
-          </div>
-          <div>&nbsp;</div>
-        </div>
-      )
-    })
+    // //渲染首页列表数据
+    // let renderhome_list = this.state.home_list.map(item => {
+    //   let times = time(item.create_time)
+    //   return (
+    //     <div className='trend' key={item}>
+    //       <div className='user'>
+    //         <div className='user_pro'>
+    //           <img src={item.author_info.user_photo} alt='user-pro'></img>
+    //         </div>
+    //         <div className='user_name'>
+    //           <div className='user_id'>{item.author_info.user_name}</div>
+    //           <div className='user_time'>{times}</div>
+    //         </div>
+    //         <div className='concern' onClick={this.concern}>关注</div>
+    //       </div>
+    //       <div className='contents' onClick={() => this.ListDetails(item)} key={item}>
+    //         <div className='content'>{item.content}</div>
+    //         <div className='picshow'>
+    //           {item.img_list.map(item => {
+    //             return (
+    //               item.img_path.split(',').map(item => {
+    //                 return (
+    //                   <img src={item} alt='pic'></img>
+    //                 )
+    //               })
+    //             )
+    //           })}
+    //         </div>
+    //       </div>
+    //       <div className='footen'>
+    //         <div className='discuss'>
+    //           <span><img src={dicuss} alt="discuss" /></span>
+    //           <span className="nums">{item.comments}</span>
+    //         </div>
+    //         {
+    //           item.is_likes == 1 ?
+    //             (
+    //               <div className={'like-' + item.id} id={'like-' + item.id} >
+    //                 <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
+    //                 <span className="nums">{item.likes}</span>
+    //               </div>
+    //             ) :
+    //             (
+    //               <div className={'dislike-' + item.id} id={'like-' + item.id} >
+    //                 <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
+    //                 <span className="nums">{item.likes}</span>
+    //               </div>
+    //             )
+    //         }
+    //       </div>
+    //       <div>&nbsp;</div>
+    //     </div>
+    //   )
+    // })
     return (<div>
       <NavHeader>
         {/* 发布按钮 */}
@@ -256,7 +386,7 @@ export default class Index extends React.Component {
                 background: '#FFE100',
                 borderradius: '30px',
                 top: '75%',
-                right: '5%',
+                right: '14%',
                 height: '50px',
                 width: '50px',
                 alignItems: 'center',
@@ -357,7 +487,7 @@ export default class Index extends React.Component {
             </div>
           </div>
         </div> */}
-        {renderhome_list}
+        {this.renderhome_list()}
       </div>
 
     </div >);
