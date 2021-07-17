@@ -25,14 +25,6 @@ const tabItems = [{
     path: '/home/profile'
 }]
 
-//判断图片个数
-// function returnPicNum(imgarray) {
-//     const m = imgarray.length;
-//     const data1 = Array.from(new Array(m)).map(() => ({
-//         icon: 'https://gw.alipayobjects.com/zos/rmsportal/WXoqXTHrSnRcUwEaQgXJ.png',
-//     }));
-//     return data1
-// }
 
 
 export default class Circle extends React.Component {
@@ -140,7 +132,6 @@ export default class Circle extends React.Component {
         this.getTiezi()
         this.getCircle()
         this.getNewTZ()
-        this.getMyID()
     }
 
     //把article_id存到本地缓存
@@ -190,6 +181,21 @@ export default class Circle extends React.Component {
         this.getCircle()
     }
 
+    //加入车圈
+    async joinCircle() {
+        console.log('community_id:', JSON.parse(window.localStorage.getItem('community_id')).community_id);
+        const res = await API.post(
+            '/community/circle/add_community',
+            {
+                community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id
+            },
+            { headers: { authorzation: getToken() } }
+        )
+        // console.log('加入车圈', res);
+        this.setState({ circle_info: [] })
+        this.getCircle()
+    }
+
     //退出车圈
     async outCircle() {
         const res = await API.put(
@@ -202,18 +208,6 @@ export default class Circle extends React.Component {
         // console.log('退出车圈', res);
         this.setState({ circle_info: [] })
         this.getCircle()
-
-    }
-
-
-    //加入车圈
-    async joinCircle() {
-        const res = await API.post(
-            '/community/circle/add_community',
-            { article_id: JSON.parse(window.localStorage.getItem('community_id')).community_id },
-            { headers: { authorzation: getToken() } }
-        )
-        console.log('加入车圈', res);
     }
 
 
