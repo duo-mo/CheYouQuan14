@@ -28,7 +28,7 @@ export default class Detail extends React.Component {
                 article_id: JSON.parse(window.localStorage.getItem('article_id')).id,
             }
         })
-        // console.log("帖子数据为：", res.data);
+        console.log("帖子数据为：", res.data);
         this.setState({
             tzxq: res.data
         })
@@ -156,38 +156,16 @@ export default class Detail extends React.Component {
                 </div>
             </div>
         ))
-        // const { tzxq } = this.state;
-        // return (
-        //     <FlatList
-        //         onEndReached={this.onEndReached}
-        //         onEndReachedThreshold={0.1}
-        //         data={tzxq}
-        //         keyExtractor={v => v.id + ""}
-        //         renderItem={({ item }) => <div key={item.id}>
-        //             <div style={{ marginBottom: '10px', display: 'flex' }}>
-        //                 <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
-        //                 <div >
-        //                     <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
-        //                     <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
-        //                 </div>
-        //             </div>
-        //             <div>{item.content}</div>
-        //             <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
-        //                 {item.img_list.map(item => (
-        //                     <img style={{ width: '170px', height: '170px', paddingRight: '3px', paddingBottom: '3px' }} src={item.img_path}></img>
-        //                 ))}
-        //             </div>
-        //         </div>}
-        //     />
-        // )
     }
     //渲染暂无评论模块
     rendernoComment() {
         return this.state.tzxq.map(item => (
-            item.comments === '0' ? <div className={styles.no_contnet_box}>
-                <img src={NoContnet} alt='无内容' className={styles.content} />
-                <div style={{ paddingBottom: '35px' }}>暂无评论</div>
-            </div> : <div className='noMore'>没有更多了</div>
+            item.comments === 0 ?
+                (<div className='NoContnetbox'>
+                    <img src={NoContnet} alt='无内容' className='noContent' />
+                    <div style={{ paddingBottom: '35px' }}>暂无评论</div>
+                </div>) :
+                <div className='noMore'>没有更多了</div>
         ))
     }
 
@@ -246,7 +224,7 @@ export default class Detail extends React.Component {
                         <div >{this.renderComments()}</div>
                     </div>
 
-                    <div style={{ paddingBottom: '38px' }}>{this.rendernoComment()}</div>
+                    <div >{this.rendernoComment()}</div>
                 </WingBlank>
 
                 {/* 发布评论模块 */}

@@ -8,6 +8,17 @@ line-height: 12px;
 font-weight: 400;
 text-align: center;
 }
+.NoContnetbox{
+    padding-bottom: 38px;
+    text-align: center;
+    color: #999999;
+  }
+  
+  .NoContnetbox .noContent {
+    width: 40vw;
+    height: auto;
+    margin-top: 24vh;
+  }
 
 .am-whitespace.am-whitespace-md {
     width: 100%;
