@@ -29,9 +29,9 @@ export default class btn extends React.Component {
   //图片选择器
   state = {
     // files: data,
-    xuanbtn: '选择车圈  >',
+    xuanbtn: '',
     content: '',
-    community_id: 0,
+    community_id: '0',
     status: 1,
     img_list: [],
     previewVisible: false,
@@ -47,7 +47,8 @@ export default class btn extends React.Component {
   //判断空值渲染草稿
   Ifnull() {
     // console.log(123);
-    if (localStorage.getItem("caogaoContent") != null) {
+    console.log('123', JSON.parse(window.localStorage.getItem('caogaoContent')));
+    if (JSON.parse(localStorage.getItem("caogaoContent")) !== null) {
       const caogaotext = JSON.parse(window.localStorage.getItem('caogaoContent')).content
       const caogaoquanId = JSON.parse(window.localStorage.getItem('caogaoContent')).quanId
       // console.log(caogaotext);
@@ -58,7 +59,9 @@ export default class btn extends React.Component {
       })
     } else {
       this.setState({
-        content: JSON.parse(window.localStorage.getItem('toxuan'))
+        // content: JSON.parse(window.localStorage.getItem('toxuan'))
+        content: '',
+        community_id: ''
       })
     }
   }
@@ -95,7 +98,7 @@ export default class btn extends React.Component {
   submit = async () => {
     let { img_list, fileList, community_id, content, status } = this.state;
     //判断内容是否为空和是否选择车友圈
-    if (content !== '' || community_id !== 0) {
+    if (content !== '' && community_id !== 0) {
       fileList.map(item => {
         img_list.push(item.response.body)
       })
@@ -150,14 +153,13 @@ export default class btn extends React.Component {
   //车友圈反馈
   Ifxuan() {
     const { community_id } = this.state
-    if (community_id === '0') {
+    if (localStorage.getItem('toxuan') === null) {
       // console.log(123);
       this.setState({
         xuanbtn: '选择车圈  >'
       })
-
     } else {
-      console.log(123);
+      console.log(this.state);
       this.setState({
         xuanbtn: JSON.parse(window.localStorage.getItem('xuanquan')).qname
       })

@@ -35,7 +35,7 @@ export default class ChooseC extends React.Component {
     }
 
     )
-    // console.log('222', res);
+    console.log('222', res);
     this.setState({
       quan: res.data.body,
     }

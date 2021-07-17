@@ -177,7 +177,7 @@ export default class btn extends React.Component {
       <div>
         <NavHeader
           onLeftClick={() => { this.Back() }}
-          style={{ position: 'fixed', top: '0px' }}>发布</NavHeader>
+          style={{ position: 'fixed', top: '0px' }}>提问</NavHeader>
         <textarea
           value={content}
           onChange={val => this.getValue('content', val)}
