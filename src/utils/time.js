@@ -14,14 +14,15 @@ export default function time(UTCtiem) {
     var day = dateTime.getDate();
     var hour = dateTime.getHours();
     var minute = dateTime.getMinutes();
-    var second = dateTime.getSeconds();
+    // var second = dateTime.getSeconds();
     var now = new Date();
     var now_new = now.valueOf();  //typescript转换写法
 
     var milliseconds = 0;
     var timeSpanStr;
 
-    milliseconds = now_new - no1new;
+    milliseconds = now_new - no1new - 480000;
+    // console.log('milliseconds:', milliseconds);
 
     if (milliseconds <= 1000 * 60 * 1) {
         timeSpanStr = '刚刚';
@@ -35,7 +36,7 @@ export default function time(UTCtiem) {
     else if (1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 15) {
         timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + '天前';
     }
-    else if (milliseconds > 1000 * 60 * 60 * 24 * 15 && year == now.getFullYear()) {
+    else if (milliseconds > 1000 * 60 * 60 * 24 * 15 && year === now.getFullYear()) {
         timeSpanStr = month + '-' + day + ' ' + hour + ':' + minute;
     } else {
         timeSpanStr = year + '-' + month + '-' + day + ' ' + hour + ':' + minute;

@@ -38,6 +38,7 @@ export default class btn extends React.Component {
     previewImage: '',
     previewTitle: '',
     fileList: [],
+    type: 'tw'
   }
 
   componentDidMount() {
@@ -88,7 +89,7 @@ export default class btn extends React.Component {
   }
   //提交数据
   submit = async () => {
-    let { img_list, fileList, community_id, content, status } = this.state;
+    let { img_list, fileList, community_id, content, status, type } = this.state;
     //判断内容是否为空和是否选择车友圈
     if (content !== '' || community_id !== 0) {
       fileList.map(item => {
@@ -100,7 +101,7 @@ export default class btn extends React.Component {
       // console.log(content);
       console.log(community_id);
       //post
-      const res = await API.post('/community/article/upload_article', { content, community_id, status, img_list }, {
+      const res = await API.post('/community/article/upload_article', { content, community_id, status, img_list, type }, {
         headers: {
           //表示登录的token发给服务器的
           authorzation: getToken()
@@ -126,7 +127,7 @@ export default class btn extends React.Component {
   //存入草稿箱
   SaveInfo() {
     let { content } = this.state
-    let quanId = JSON.parse(window.localStorage.getItem('xuanquan')).qid
+    let quanId = this.props.location.params.id
     Toast.info('存入成功', 1.5, null, true)
     // console.log(content);//内容success
     // console.log(this.props.location.params.id);//车圈idsuccess
@@ -142,12 +143,12 @@ export default class btn extends React.Component {
   //车友圈反馈
   Ifxuan() {
     const { community_id } = this.state
+    // const { community_id } = this.state
     if (community_id === 0) {
       // console.log(123);
       this.setState({
         xuanbtn: '选择车圈  >'
       })
-
     } else {
       console.log(123);
       this.setState({
@@ -168,7 +169,7 @@ export default class btn extends React.Component {
       <div>
         <NavHeader
           onLeftClick={() => { this.Back() }}
-          style={{ position: 'fixed', top: '0px' }}>发布</NavHeader>
+          style={{ position: 'fixed', top: '0px' }}>提问</NavHeader>
         <textarea
           value={content}
           onChange={val => this.getValue('content', val)}

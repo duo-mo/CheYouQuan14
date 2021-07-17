@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { WingBlank, TabBar, NavBar, Icon, WhiteSpace } from 'antd-mobile';
 import './style.css'
 import { API } from "../../utils/api.js"
@@ -7,9 +8,12 @@ import tiwen from '../../assets/img/03-发布.png'
 import dicuss from '../../assets/img/评论.svg'
 import more from '../../assets/img/更多.png'
 import time from '../../utils/time';
+
 import { getToken } from '../../utils/auth'
 
+
 const myImg = src => <img src={src} className="am-icon-mm" alt="" />;
+
 
 //Tabs标签
 const tabItems = [{
@@ -22,13 +26,13 @@ const tabItems = [{
 }]
 
 //判断图片个数
-function returnPicNum(imgarray) {
-    const m = imgarray.length;
-    const data1 = Array.from(new Array(m)).map(() => ({
-        icon: 'https://gw.alipayobjects.com/zos/rmsportal/WXoqXTHrSnRcUwEaQgXJ.png',
-    }));
-    return data1
-}
+// function returnPicNum(imgarray) {
+//     const m = imgarray.length;
+//     const data1 = Array.from(new Array(m)).map(() => ({
+//         icon: 'https://gw.alipayobjects.com/zos/rmsportal/WXoqXTHrSnRcUwEaQgXJ.png',
+//     }));
+//     return data1
+// }
 
 
 export default class Circle extends React.Component {
@@ -44,6 +48,7 @@ export default class Circle extends React.Component {
             circle_info: [],
             newtz: [],
             carinfo: []
+
         }
     }
     //改变子评论的className
@@ -54,7 +59,7 @@ export default class Circle extends React.Component {
                 display_none: 'none'
             })
         }
-        if (document.getElementById('m-tab-0').className == 'selectedTab') {
+        if (document.getElementById('m-tab-0').className === 'selectedTab') {
             console.log('这个被选中的tab已经被选中了');
         } else {
             document.getElementById('m-tab-0').className = 'selectedTab';
@@ -68,7 +73,7 @@ export default class Circle extends React.Component {
                 display_none: 'block'
             })
         }
-        if (document.getElementById('m-tab-1').className == 'selectedTab') {
+        if (document.getElementById('m-tab-1').className === 'selectedTab') {
             console.log('这个被选中的tab已经被选中了');
         } else {
             document.getElementById('m-tab-1').className = 'selectedTab';
@@ -135,6 +140,7 @@ export default class Circle extends React.Component {
         this.getTiezi()
         this.getCircle()
         this.getNewTZ()
+        this.getMyID()
     }
 
     //把article_id存到本地缓存
@@ -152,6 +158,7 @@ export default class Circle extends React.Component {
             '/community/like_article',
             { article_id: article_id },
             { headers: { authorzation: getToken() } }
+
         )
         const id = 'like-' + article_id
         // console.log("点赞数据为：", res.data.body);
@@ -195,7 +202,20 @@ export default class Circle extends React.Component {
         // console.log('退出车圈', res);
         this.setState({ circle_info: [] })
         this.getCircle()
+
     }
+
+
+    //加入车圈
+    async joinCircle() {
+        const res = await API.post(
+            '/community/circle/add_community',
+            { article_id: JSON.parse(window.localStorage.getItem('community_id')).community_id },
+            { headers: { authorzation: getToken() } }
+        )
+        console.log('加入车圈', res);
+    }
+
 
     //渲染车圈简介
     renderCirHead() {
@@ -225,9 +245,11 @@ export default class Circle extends React.Component {
                 }
                 {/* <button className='joinBtn' onClick={() => this.joinCircle()}>加入</button> */}
                 <img id='beijing' src={item.img_path}></img>
+
             </div>
         ))
     }
+
 
     //渲染热门帖子
     renderTiezi() {
@@ -236,17 +258,19 @@ export default class Circle extends React.Component {
                 <div className='TZ-body'>
                     <div className='test-m' onClick={() => this.turnArticle(item)}>
                         <div style={{ marginBottom: '10px', display: 'flex' }}>
-                            <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
+                            <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo} alt="用户头像"></img>
                             <div >
                                 <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
                                 <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
                             </div>
                         </div>
+
                         <div className='TZ-content'>{item.content}</div>
+
                         {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
                         <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
                             {item.img_list.map(item => (
-                                <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path}></img>
+                                <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path} alt="图片列表"></img>
                             ))}
                         </div>
                     </div>
@@ -277,14 +301,60 @@ export default class Circle extends React.Component {
         ))
     }
 
+
+
     //渲染最新帖子
     renderNewTZ() {
+        // return this.state.newtz.map(item => (
+        //     <div key={item.id} style={{ marginTop: '10px' }}>
+        //         <div className='TZ-body'>
+        //             <div className='test-m' onClick={() => this.turnArticle(item)}>
+        //                 <div style={{ marginBottom: '10px', display: 'flex' }}>
+        //                     <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
+        //                     <div >
+        //                         <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
+        //                         <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
+        //                     </div>
+        //                 </div>
+        //                 <div>{item.content}</div>
+        //                 <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
+        //                     {item.img_list.map(item => (
+        //                         <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path}></img>
+        //                     ))}
+        //                 </div>
+        //             </div>
+
+        //             <div className='footen'>
+        //                 <div className='discuss'>
+        //                     <span><img src={dicuss} alt="discuss" /></span>
+        //                     <span className="nums">{item.comments}</span>
+        //                 </div>
+        //                 {
+        //                     item.is_likes == 1 ?
+        //                         (
+        //                             <div className={'like-' + item.id} id={'like-' + item.id} >
+        //                                 <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
+        //                                 <span className="nums">{item.likes}</span>
+        //                             </div>
+        //                         ) :
+        //                         (
+        //                             <div className={'dislike-' + item.id} id={'like-' + item.id} >
+        //                                 <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
+        //                                 <span className="nums">{item.likes}</span>
+        //                             </div>
+        //                         )
+        //                 }
+        //             </div>
+        //         </div>
+        //         <WhiteSpace />
+        //     </div>
+        // ))
         return this.state.newtz.map(item => (
             <div key={item.id} style={{ marginTop: '10px' }}>
                 <div className='TZ-body'>
                     <div className='test-m' onClick={() => this.turnArticle(item)}>
                         <div style={{ marginBottom: '10px', display: 'flex' }}>
-                            <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo}></img>
+                            <img style={{ width: '36px', height: '36px', borderRadius: '18px', marginRight: '10px' }} src={item.author_info.user_photo} alt="头像"></img>
                             <div >
                                 <div style={{ height: '14px', fontSize: '14px', color: '#333', fontWeight: '500' }}>{item.author_info.user_name}</div>
                                 <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
@@ -294,7 +364,7 @@ export default class Circle extends React.Component {
                         {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
                         <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
                             {item.img_list.map(item => (
-                                <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path}></img>
+                                <img style={{ width: '113px', height: '113px', paddingRight: '3px' }} src={item.img_path} alt="tupian"></img>
                             ))}
                         </div>
                     </div>

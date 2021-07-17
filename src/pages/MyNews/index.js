@@ -1,6 +1,6 @@
 import React from 'react'
 import NavHeader from '../../components/NavHeader'
-import { Modal,List } from 'antd-mobile'
+import { Modal } from 'antd-mobile'
 import styles from './index.module.scss'
 import { API } from '../../utils/api'
 import { getToken } from '../../utils/auth'
@@ -48,7 +48,7 @@ class MyNews extends React.Component{
                 console.log()
                 console.log(res.data.body)
                 console.log(res.data.body.status)
-            if(res.data.status==200){
+            if(res.data.status===200){
                 this.getNews()
                 
             }
@@ -106,9 +106,12 @@ class MyNews extends React.Component{
                                 <img src={DeletePng} alt="删除" onClick={() => this.del_news(item)}/>
                             </div>
                         </div>
+                        {item.img_list.length>0?(
                         <div className={styles.content_img} >
-                            <img src={avatar} alt="内容图片" />
+                            <img src={item.img_list[0].img_path} alt="内容图片" />
                         </div>
+                        ):(<></>) }
+                        
                         
                         </div>
                         

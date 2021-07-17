@@ -6,7 +6,7 @@ import { Route, Link } from 'react-router-dom'
 import Index from '../Index'
 import Profile from '../Profile'
 import Circle from '../Circle'
-import axios from 'axios'
+// import axios from 'axios'
 //鉴权组件
 // import AuthRoute from '../../components/AuthRoute'
 //导入tabbar
@@ -16,8 +16,8 @@ import icon_cyq0 from "../../assets/img/cyq0.png"
 import icon_cyq01 from "../../assets/img/cyq1.png"
 import icon_profile0 from "../../assets/img/my0.png"
 import icon_profile1 from "../../assets/img/my1.png"
-import { API } from "../../utils/api.js"
-import SshPK from 'sshpk'
+// import { API } from "../../utils/api.js"
+// import SshPK from 'sshpk'
 
 const tabItems = [{
   title: '车友圈',
@@ -106,7 +106,7 @@ export default class Home extends React.Component {
         >
           {this.renderTabBarItem()}
         </TabBar>
-        <Link to='/Circle'>哈弗车圈</Link>
+        {/* <Link to='/Circle'>哈弗车圈</Link> */}
       </div>
     )
   }

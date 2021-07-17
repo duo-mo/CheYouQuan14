@@ -130,6 +130,7 @@ export default class Index extends React.Component {
     const id = item.id;
     console.log('123', id);
     localStorage.setItem('article_id', JSON.stringify({ id }))
+
     this.props.history.push('/Detail')
   }
   //加入圈子函数
