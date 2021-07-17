@@ -1,30 +1,17 @@
 import React from 'react'
-// import { FlatList } from 'react-native'
-// 1.导入路由
-// import { Route, Link } from 'react-router-dom'
-//2.导入组件
-// import Index from '../Index'
-// import Profile from '../Profile'
-// import axios from 'axios'
-//鉴权组件
-// import AuthRoute from '../../components/AuthRoute'
-//导入tabbar
-import {message} from 'antd'
-import { WingBlank, TabBar, NavBar, Icon, WhiteSpace} from 'antd-mobile';
-// import { StickyContainer, Sticky } from 'react-sticky';
-import './style.css'
 
+import { WingBlank, TabBar, NavBar, Icon, WhiteSpace } from 'antd-mobile';
+import './style.css'
 import { API } from "../../utils/api.js"
 import tuwen from '../../assets/img/ugc_icon_发图文.png'
 import tiwen from '../../assets/img/03-发布.png'
-// import like from '../../assets/img/ugc_icon_like_normal_24.svg'
-// import liked from '../../assets/img/ugc_icon_like_selected_24.svg'
 import dicuss from '../../assets/img/评论.svg'
 import more from '../../assets/img/更多.png'
-// import Detail from '../Detail'
 import time from '../../utils/time';
-// import AuthRoute from '../../components/AuthRoute'
+
 import { getToken } from '../../utils/auth'
+
+
 const myImg = src => <img src={src} className="am-icon-mm" alt="" />;
 
 
@@ -49,7 +36,7 @@ const tabItems = [{
 
 
 export default class Circle extends React.Component {
-    //改变div的className
+
     constructor(props) {
         super(props);
         this.state = {
@@ -60,8 +47,11 @@ export default class Circle extends React.Component {
             tiezi: [],
             circle_info: [],
             newtz: [],
+            carinfo: []
+
         }
     }
+    //改变子评论的className
     del_0 = () => {
         if (this.state.display_block === 'none') {
             this.setState({
@@ -90,7 +80,7 @@ export default class Circle extends React.Component {
             document.getElementById('m-tab-0').className = 'unselectedTab';
         }
     }
-    //改变div的className
+    //改变子评论的className
 
 
     //获取热门帖子信息
@@ -100,11 +90,11 @@ export default class Circle extends React.Component {
             params: {
                 community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id,
                 page: 1,
-                limit: 4,
+                limit: 10,
                 user_id: JSON.parse(window.localStorage.getItem('my_id'))
             }
         })
-        console.log("热门帖子数据为：", res.data);
+        // console.log("热门帖子数据为：", res.data);
         this.setState({
             tiezi: res.data
         })
@@ -117,11 +107,11 @@ export default class Circle extends React.Component {
             params: {
                 community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id,
                 page: 1,
-                limit: 4,
+                limit: 10,
                 user_id: JSON.parse(window.localStorage.getItem('my_id'))
             }
         })
-        console.log("最新帖子数据为：", res.data);
+        // console.log("最新帖子数据为：", res.data);
         this.setState({
             newtz: res.data
         })
@@ -132,26 +122,18 @@ export default class Circle extends React.Component {
         const res = await API.get(
             '/community/circle/circle_info', {
             params: {
-                community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id
+                community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id,
+                user_id: JSON.parse(window.localStorage.getItem('my_id'))
             }
         })
-        console.log("圈子数据为：", res.data);
+        // console.log("车圈信息数据为：", res.data);
         this.setState({
-            circle_info: res.data.body
+            circle_info: res.data.body,
+            carinfo: res.data
         })
-        console.log("数据为：", this.state.circle_info);
+        // console.log("车圈信息为：", this.state.circle_info);
+        // console.log('id', this.state.carinfo.is_join);
     }
-
-    //获取自己的id
-    async getMyID() {
-        await API.get(
-            '/user', {
-            params: {
-                community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id
-            }
-        })
-    }
-
 
     //钩子函数
     componentDidMount() {
@@ -161,7 +143,7 @@ export default class Circle extends React.Component {
         this.getMyID()
     }
 
-    //本地缓存
+    //把article_id存到本地缓存
     turnArticle({ id }) {
         console.log(id);
         //存储到本地缓存
@@ -176,9 +158,10 @@ export default class Circle extends React.Component {
             '/community/like_article',
             { article_id: article_id },
             { headers: { authorzation: getToken() } }
-        )        
-        console.log("点赞数据为：", res.data.body);
-        // const id = 'like-' + article_id
+
+        )
+        const id = 'like-' + article_id
+        // console.log("点赞数据为：", res.data.body);
         // console.log(document.getElementById(id));
         // console.log(res.data.body.iscancelstar);
         // if (res.data.body.iscancelstar == true) {
@@ -189,6 +172,37 @@ export default class Circle extends React.Component {
         this.setState({ newTZ: [], tiezi: [] })
         this.getTiezi()
         this.getNewTZ()
+    }
+
+
+    //加入车圈
+    async joinCircle() {
+        console.log('community_id:', JSON.parse(window.localStorage.getItem('community_id')).community_id);
+        const res = await API.post(
+            '/community/circle/add_community',
+            {
+                community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id
+            },
+            { headers: { authorzation: getToken() } }
+        )
+        // console.log('加入车圈', res);
+        this.setState({ circle_info: [] })
+        this.getCircle()
+    }
+
+    //退出车圈
+    async outCircle() {
+        const res = await API.put(
+            '/community/circle/quit_community',
+            {
+                community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id
+            },
+            { headers: { authorzation: getToken() } }
+        )
+        // console.log('退出车圈', res);
+        this.setState({ circle_info: [] })
+        this.getCircle()
+
     }
 
 
@@ -210,7 +224,6 @@ export default class Circle extends React.Component {
             <div className='carCircleIntr'>
                 <div>
                     <div className='carCircleIntr_name'>{item.name}</div>
-
                     <div className='describe'>
                         {item.active_user_photo.split(',').map(item => {
                             return (
@@ -224,33 +237,24 @@ export default class Circle extends React.Component {
                     <div className='carCircleIntr_resume'>{item.circle_resume}</div>
                 </div>
                 {/* onClick={this.joinCircle()} */}
-                <button id='joinButton' >加入</button>
-                <img id='beijing' src={item.img_path} alt="加入"></img>
+                {/* 通过是否加入车圈 渲染按钮 */}
+                {
+                    this.state.carinfo.is_join == 1 ?
+                        (<button className='joinedBtn' onClick={() => this.outCircle()} >已加入</button>) :
+                        (<button className='joinBtn' onClick={() => this.joinCircle()}>加入</button>)
+                }
+                {/* <button className='joinBtn' onClick={() => this.joinCircle()}>加入</button> */}
+                <img id='beijing' src={item.img_path}></img>
+
             </div>
         ))
     }
 
 
-    async returnClass(article_id) {
-        const res = await API.post(
-            '/community/like_article',
-            { article_id: article_id },
-            { headers: { authorzation: getToken() } }
-        )
-        const id = 'like-' + article_id
-        if (res.data.body.iscancelstar === false) {
-            document.getElementById(id).className = 'dislike-' + article_id
-        } else {
-            document.getElementById(id).className = 'like-' + article_id
-        }
-    }
-
-
     //渲染热门帖子
     renderTiezi() {
-
         return this.state.tiezi.map(item => (
-            <div key={item.id} style={{ marginTop: '10px' }}>
+            <div style={{ marginTop: '10px' }}>
                 <div className='TZ-body'>
                     <div className='test-m' onClick={() => this.turnArticle(item)}>
                         <div style={{ marginBottom: '10px', display: 'flex' }}>
@@ -260,7 +264,9 @@ export default class Circle extends React.Component {
                                 <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
                             </div>
                         </div>
-                        <div className='TZ-content'>{item.content} 查看全文 </div>
+
+                        <div className='TZ-content'>{item.content}</div>
+
                         {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
                         <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
                             {item.img_list.map(item => (
@@ -274,7 +280,7 @@ export default class Circle extends React.Component {
                             <span className="nums">{item.comments}</span>
                         </div>
                         {
-                            item.is_likes === 1 ?
+                            item.is_likes == 1 ?
                                 (
                                     <div className={'like-' + item.id} id={'like-' + item.id} >
                                         <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
@@ -354,7 +360,7 @@ export default class Circle extends React.Component {
                                 <div style={{ height: '5px', fontSize: '5px', marginTop: '5px', color: '#999' }}> {time(item.create_time)} </div>
                             </div>
                         </div>
-                        <div className='TZ-content'>{item.content} 查看全文 </div>
+                        <div className='TZ-content'>{item.content}</div>
                         {/* <Grid data={returnPicNum({img_list})} columnNum={3} square={true} /> */}
                         <div style={{ flexWrap: 'wrap', flexDirection: 'row', paddingTop: '10px' }}>
                             {item.img_list.map(item => (
@@ -368,7 +374,7 @@ export default class Circle extends React.Component {
                             <span className="nums">{item.comments}</span>
                         </div>
                         {
-                            item.is_likes === 1 ?
+                            item.is_likes == 1 ?
                                 (
                                     <div className={'like-' + item.id} id={'like-' + item.id} >
                                         <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
@@ -415,12 +421,6 @@ export default class Circle extends React.Component {
         />)
     }
 
-    returnPage() {
-        console.log('1');
-    }
-
-
-
     render() {
         return (
             <div className='home'>
@@ -438,7 +438,6 @@ export default class Circle extends React.Component {
                     <div>{this.renderCirHead()}</div>
                 </WingBlank>
                 {/* 车圈介绍bar */}
-
 
                 <WhiteSpace />
                 <WingBlank>

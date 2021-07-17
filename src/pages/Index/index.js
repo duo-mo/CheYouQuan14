@@ -127,9 +127,10 @@ export default class Index extends React.Component {
   }
   //动态详情
   ListDetails(item) {
-    const article_id = item.id;
-    console.log('123', article_id);
-    localStorage.setItem('article_id', JSON.stringify({ article_id }))
+    const id = item.id;
+    console.log('123', id);
+    localStorage.setItem('article_id', JSON.stringify({ id }))
+
     this.props.history.push('/Detail')
   }
   //加入圈子函数
