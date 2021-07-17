@@ -44,7 +44,7 @@
 }
 
 .news_ul .news .news_right .middle {
-  margin-right: 3vw;
+  width: 58vw;
   color: #222;
 }
 
@@ -89,7 +89,7 @@
 .news_ul .news .news_right .content_img {
   width: 24vw;
   text-align: center;
-  padding: 2vw 2vw 2vw 0;
+  padding: 2vw;
 }
 
 .news_ul .news .news_right .content_img img {

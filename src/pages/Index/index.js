@@ -34,22 +34,23 @@ export default class Index extends React.Component {
       isLogin: 0,
 
     }],
-    home_list: [{
-      content: '',
-      likes: 0,
-      views: 0,
-      comments: 0,
-      status: '',
-      create_time: '',
-      img_list: [],
-      author_info: {
-        uuid: '',
-        user_name: '',
-        user_photo: '',
-        resume: '',
-        is_likes: 0
-      },
-    }]
+    home_list: []
+    //     {
+    //   content: '',
+    //     likes: 0,
+    //       views: 0,
+    //         comments: 0,
+    //           status: '',
+    //             create_time: '',
+    //               img_list: [],
+    //                 author_info: {
+    //     uuid: '',
+    //       user_name: '',
+    //         user_photo: '',
+    //           resume: '',
+    //             is_likes: 0
+    //   },
+    // }
 
   };
   componentDidMount() {
@@ -95,10 +96,16 @@ export default class Index extends React.Component {
     const res2 = await API.get('/community/get_community_home_list', {
       params: {
         page: 1,
-        limit: 3
+        limit: 3,
+        user_id: JSON.parse(window.localStorage.getItem('my_id'))
       }
     })
-    console.log('res2', res2)
+    console.log('首页列表数据', res2)
+    //       if(res.data.body.is_likes=== 0){
+    //   is_likes:1
+    // }else {
+    //   ls_likes:0
+    //   }
     this.setState({
       home_list: res2.data.body
     })
@@ -128,9 +135,7 @@ export default class Index extends React.Component {
   //动态详情
   ListDetails(item) {
     const id = item.id;
-    console.log('123', id);
     localStorage.setItem('article_id', JSON.stringify({ id }))
-
     this.props.history.push('/Detail')
   }
   //加入圈子函数
@@ -138,9 +143,32 @@ export default class Index extends React.Component {
     Toast.info('加入成功', 1, null, false)
 
   }
+
+  //点赞首页数据获取
+  // async zanCommunityHomeList() {
+  //   const { is_likes } = this.state
+  //   const res2 = await API.get('/community/get_community_home_list', {
+  //     params: {
+  //       page: 1,
+  //       limit: 3
+  //     }
+  //   })
+  //   res2.data.body.map(item => {
+  //     if (item.is_likes === 0) {
+  //       return item.is_likes === 1
+  //     } else {
+  //       return is_likes === 0
+  //     }
+  //   })
+  //   console.log('zan', res2)
+  //   this.setState({
+  //     home_list: res2.data.body
+  //   })
+  // }
   //点赞函数
   async likeArticle(article_id, article_likes) {
     console.log('当前article_id为', article_id);
+    console.log(article_likes);
     const res = await API.post(
       '/community/like_article',
       { article_id },
@@ -149,9 +177,17 @@ export default class Index extends React.Component {
     console.log("点赞数据为：", res.data.body);
     // const id = 'like-' + article_id
     this.setState({
-      home_list: []
+      home_list: [],
+      //   if(is_likes=== 0){
+      //   is_likes:1
+      // }else {
+      //   ls_likes:0
+      //   }
     })
     this.geCommunityHomeList()
+
+
+
     // console.log(document.getElementById(id));
     // console.log(res.data.body.iscancelstar);
     // if (res.data.body.iscancelstar == true) {
@@ -350,7 +386,7 @@ export default class Index extends React.Component {
                 background: '#FFE100',
                 borderradius: '30px',
                 top: '75%',
-                right: '5%',
+                right: '14%',
                 height: '50px',
                 width: '50px',
                 alignItems: 'center',

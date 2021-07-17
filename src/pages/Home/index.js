@@ -106,7 +106,7 @@ export default class Home extends React.Component {
         >
           {this.renderTabBarItem()}
         </TabBar>
-        {/* <Link to='/Circle'>哈弗车圈</Link> */}
+        <Link to='/Circle'>哈弗车圈</Link>
       </div>
     )
   }

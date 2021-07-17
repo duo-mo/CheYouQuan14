@@ -56,6 +56,10 @@ export default class btn extends React.Component {
         content: caogaotext,
         community_id: caogaoquanId
       })
+    } else {
+      this.setState({
+        content: JSON.parse(window.localStorage.getItem('toxuan'))
+      })
     }
   }
   handleCancel = () => this.setState({ previewVisible: false });
@@ -79,6 +83,7 @@ export default class btn extends React.Component {
   //获取输入框内值
   getValue = (name, value) => {
     // console.log(name, value.target.value);
+    localStorage.removeItem('toxuan')
     // console.log(content);
     this.setState({
       [name]: value.target.value,
@@ -106,10 +111,10 @@ export default class btn extends React.Component {
           authorzation: getToken()
         }
       })
-      if (res.data.status === 200) {
-        Toast.info('发布成功', 1, null, false)
-        this.props.history.push('/user/my_news')
-      }
+
+      Toast.info('发布成功', 1, null, false)
+      this.props.history.push('/user/my_news')
+      localStorage.removeItem('caogaoContent')
     } else {
       Toast.info('请确认是否选择车圈和输入内容不能为空', 2, null, true)
 
@@ -137,12 +142,15 @@ export default class btn extends React.Component {
   }
   //前往选车友圈页面
   goChoose() {
+    const { content } = this.state
+    localStorage.setItem('toxuan', JSON.stringify(content))
     this.props.history.push('/publish/choosec')
+
   }
   //车友圈反馈
   Ifxuan() {
     const { community_id } = this.state
-    if (community_id === 0) {
+    if (community_id === '0') {
       // console.log(123);
       this.setState({
         xuanbtn: '选择车圈  >'
