@@ -7,21 +7,35 @@ import NavHeader from '../../../components/NavHeader';
 
 
 
-export default class ChooseC extends React.Component {
+class ChooseC extends React.Component {
   componentDidMount() {
     this.getQuan();
     // this.renderQuan()
   }
+  constructor(props){
+    super(props);
+    this.state={
+      content: '',
+      img_list: [],
+      quan: [{
+        id: 0,
+        name: '',
+        all_num: 0,
+        community_content_num: 0,
+        img_path: '',
+      }]
+    }
+}
 
-  state = {
-    quan: [{
-      id: 0,
-      name: '',
-      all_num: 0,
-      community_content_num: 0,
-      img_path: '',
-    }]
-  }
+  // state = {
+  //   quan: [{
+  //     id: 0,
+  //     name: '',
+  //     all_num: 0,
+  //     community_content_num: 0,
+  //     img_path: '',
+  //   }]
+  // }
 
   async getQuan() {
     const res = await API.get('/community/get_community_choose_list', {
@@ -35,15 +49,17 @@ export default class ChooseC extends React.Component {
     }
 
     )
-    console.log('222', res);
+    console.log('获取圈子列表', res);
     this.setState({
       quan: res.data.body,
+      content:this.props.location.state.content,
+      img_list:this.props.location.state.img_list
     }
     )
 
     // console.log('222' + res.data.body);
   }
-  //返回编辑页面并传圈子id值
+  返回编辑页面并传圈子id值
   handleClick(item) {
     // console.log(e.target);
     // const nnn = e.target.name
@@ -55,19 +71,22 @@ export default class ChooseC extends React.Component {
     //   }
     // })
     // console.log(item.id);
+    
     const qid = item.id
     const qname = item.name
     // console.log(qid + qname);
     localStorage.setItem('xuanquan', JSON.stringify({ qid, qname }))
-    this.props.history.push('/publish')
+    this.props.history.push({pathname:'/publish',state:{
+      circle_name:item.name,
+      circle_id:item.id,
+      content:this.state.content,
+      img_list:this.state.img_list
+    }})
   }
-
-
 
   render() {
     //渲染车友圈页面
     let renderQuan = this.state.quan.map(item => {
-      // console.log('111', item);
       return (
         <li>
           <div className='CqItem' onClick={() => this.handleClick(item)}>
@@ -83,7 +102,10 @@ export default class ChooseC extends React.Component {
     return (
       <div>
         <NavHeader>选择车友圈</NavHeader>
+        {/* <div>{this.state.content}</div>
+        <div>{this.state.img_list}</div> */}
         <ul>
+          
           {renderQuan}
         </ul>
 
@@ -91,3 +113,4 @@ export default class ChooseC extends React.Component {
     )
   }
 }
+export default ChooseC;

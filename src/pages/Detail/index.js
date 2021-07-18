@@ -124,7 +124,7 @@ export default class Detail extends React.Component {
     //发布评论按钮点击事件
     handleSubmit = () => {
         // console.log(this.state.text);
-        if (this.state.text == "") {
+        if (this.state.text === "") {
             console.log("请先输入内容");
         } else {
             this.postComments(this.state.text)
@@ -184,7 +184,7 @@ export default class Detail extends React.Component {
                     </div>
                 </div>
                 <div id={item.id} className='replyComment-undisplay'>
-                    {this.state.subcomments.length == 0 ?
+                    {this.state.subcomments.length === 0 ?
                         (<div>暂无回复</div>) :
                         (this.state.subcomments.map(item => (
                             <div>

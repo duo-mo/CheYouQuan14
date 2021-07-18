@@ -44,7 +44,7 @@
 }
 
 .news_ul .news .news_right .middle {
-  width: 58vw;
+  margin-right: 3vw;
   color: #222;
 }
 
@@ -89,10 +89,11 @@
 .news_ul .news .news_right .content_img {
   width: 24vw;
   text-align: center;
-  padding: 2vw;
+  padding: 6vw 2vw 2vw 0;
 }
 
 .news_ul .news .news_right .content_img img {
   width: 19vw;
+  height: 19vw;
   max-width: 120px;
 }

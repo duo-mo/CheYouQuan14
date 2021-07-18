@@ -50,7 +50,8 @@ export default class Profile extends React.Component {
           console.log('getUserInfo', res)
 
           //移除本地token
-          removeToken()
+          removeToken();
+          localStorage.clear(); 
           this.setState({
             isLogin: false,
             userInfo: {

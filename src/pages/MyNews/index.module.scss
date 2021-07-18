@@ -9,9 +9,6 @@
 }
 
 
-
-
-
 .news_ul{
     list-style: none;
     padding: 0;
@@ -39,7 +36,7 @@
             padding-top: 2vw;
             /* background-color: #ff8c00; */
             .middle{
-                width: 58vw;
+                margin-right: 3vw;
                 color: #222;
                 .user_name{
                     line-height: 14px;
@@ -78,9 +75,10 @@
             .content_img{
                 width: 24vw;
                 text-align: center;
-                padding: 2vw;
+                padding: 6vw 2vw 2vw 0;
                 img{
                     width: 19vw;
+                    height: 19vw;
                     max-width: 120px;
 
                 }
@@ -89,7 +87,3 @@
         }
     }
 }
-
-
-
-

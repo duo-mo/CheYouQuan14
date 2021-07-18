@@ -96,7 +96,7 @@ export default class Index extends React.Component {
     const res2 = await API.get('/community/get_community_home_list', {
       params: {
         page: 1,
-        limit: 3,
+        limit: 10,
         user_id: JSON.parse(window.localStorage.getItem('my_id'))
       }
     })
@@ -117,7 +117,7 @@ export default class Index extends React.Component {
       selected: opt.props.value,
 
     });
-    this.props.history.push('/' + opt.props.value)
+    this.props.history.push({pathname:'/'+opt.props.value,state:{content:'',img_list:''}})
 
   };
   handleVisibleChange = (visible) => {
@@ -219,6 +219,7 @@ export default class Index extends React.Component {
       this.state.home_list.map(item => {
         let times = time(item.create_time)
         return (
+
           <div className='trend' key={item}>
             <div className='user'>
               <div className='user_pro'>
@@ -267,6 +268,7 @@ export default class Index extends React.Component {
             </div>
             <div>&nbsp;</div>
           </div>
+
         )
       })
     )
@@ -487,8 +489,9 @@ export default class Index extends React.Component {
             </div>
           </div>
         </div> */}
+
         {this.renderhome_list()}
-      </div>
+       </div>
 
     </div >);
   }

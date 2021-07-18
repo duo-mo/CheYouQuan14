@@ -141,7 +141,7 @@ export default class Circle extends React.Component {
   //点赞/取消点赞
   async likeArticle(article_id, article_likes) {
     console.log('当前article_id为', article_id);
-    const res = await API.post(
+    await API.post(
       '/community/like_article',
       { article_id: article_id },
       { headers: { authorzation: getToken() } }
@@ -173,7 +173,7 @@ export default class Circle extends React.Component {
   //加入车圈
   async joinCircle() {
     console.log('community_id:', JSON.parse(window.localStorage.getItem('community_id')).community_id);
-    const res = await API.post(
+    await API.post(
       '/community/circle/add_community',
       {
         community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id
@@ -188,7 +188,7 @@ export default class Circle extends React.Component {
   //加入车圈
   async joinCircle() {
     console.log('community_id:', JSON.parse(window.localStorage.getItem('community_id')).community_id);
-    const res = await API.post(
+    await API.post(
       '/community/circle/add_community',
       {
         community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id
@@ -202,7 +202,7 @@ export default class Circle extends React.Component {
 
   //退出车圈
   async outCircle() {
-    const res = await API.put(
+    await API.put(
       '/community/circle/quit_community',
       {
         community_id: JSON.parse(window.localStorage.getItem('community_id')).community_id
@@ -237,12 +237,12 @@ export default class Circle extends React.Component {
         {/* onClick={this.joinCircle()} */}
         {/* 通过是否加入车圈 渲染按钮 */}
         {
-          this.state.carinfo.is_join == 1 ?
+          this.state.carinfo.is_join === 1 ?
             (<button className='joinedBtn' onClick={() => this.outCircle()} >已加入</button>) :
             (<button className='joinBtn' onClick={() => this.joinCircle()}>加入</button>)
         }
         {/* <button className='joinBtn' onClick={() => this.joinCircle()}>加入</button> */}
-        <img id='beijing' src={item.img_path}></img>
+        <img id='beijing' src={item.img_path} alt="beijin"></img>
 
       </div>
     ))
@@ -278,7 +278,7 @@ export default class Circle extends React.Component {
               <span className="nums">{item.comments}</span>
             </div>
             {
-              item.is_likes == 1 ?
+              item.is_likes === 1 ?
                 (
                   <div className={'like-' + item.id} id={'like-' + item.id} >
                     <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
@@ -328,7 +328,7 @@ export default class Circle extends React.Component {
               <span className="nums">{item.comments}</span>
             </div>
             {
-              item.is_likes == 1 ?
+              item.is_likes === 1 ?
                 (
                   <div className={'like-' + item.id} id={'like-' + item.id} >
                     <span onClick={() => this.likeArticle(item.id, item.likes)}></span>
